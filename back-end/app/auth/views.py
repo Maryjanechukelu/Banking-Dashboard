@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
-from app import db
+from app import db, bcrypt
 from app.models import User
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 auth_blueprint = Blueprint('auth', __name__)
 
@@ -33,8 +34,13 @@ def login():
     if user is None or not user.check_password(password):
         return jsonify({"error": "Invalid credentials"}), 401
     
-    # Generate token (this is just a placeholder, you need to implement JWT)
-    token = "fake-jwt-token"
+    access_token = create_access_token(identity={'username': user.username})
     
-    return jsonify({"token": token}), 200
+    return jsonify({"token": access_token}), 200
+
+@auth_blueprint.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
