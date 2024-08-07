@@ -3,11 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+import datetime
 
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
 jwt = JWTManager()
+
+blacklist = set()
 
 def create_app():
     app = Flask(__name__)
@@ -21,5 +24,10 @@ def create_app():
     from app.auth.views import auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     
+    @jwt.token_in_blocklist_loader
+    def check_if_token_is_revoked(jwt_header, jwt_payload):
+        jti = jwt_payload['jti']
+        return jti in blacklist
+
     return app
 
