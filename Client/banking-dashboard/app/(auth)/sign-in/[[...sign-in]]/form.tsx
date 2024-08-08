@@ -15,9 +15,11 @@ export const SigninForm = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [message, setMessage] = useState("")
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+      setMessage("")
     try {
       const res = await signIn("credentials", {
         redirect: false,
@@ -27,15 +29,19 @@ export const SigninForm = () => {
       })
       console.log("Res", res)
       if (!res?.error) {
+        setMessage("Login successful!")
         router.push(callbackUrl)
       } else {
         setError("Invalid email or password")
       }
-    } catch (err: any) {}
+    } catch (err: any) {setMessage(`Login failed: ${err.message}`)}
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-12 w-full sm:w-[400px]">
+    <form
+      onSubmit={onSubmit}
+      className="space-y-12 w-full sm:w-[400px]"
+    >
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -63,6 +69,7 @@ export const SigninForm = () => {
         <Button className="w-full bg-blue-700 hover:bg-blue-900" size="lg">
           Login
         </Button>
+        {message && <p>{message}</p>}
       </div>
     </form>
   )
