@@ -1,6 +1,7 @@
-import Link from "next/link"
+import Link from "next/link" 
 import Image from "next/image"
 import { SigninForm } from "./form"
+
 
 const SignIn = () => {
   return (
@@ -14,7 +15,7 @@ const SignIn = () => {
           <h1 className="font-semibold text-2xl">Login</h1>
           <SigninForm />
           <p className="text-center">
-            Need to create an account?{" "}
+           {"Don't"} have an account?{" "}
             <Link className="text-indigo-500 hover:underline" href="/sign-up">
               Create Account
             </Link>{" "}

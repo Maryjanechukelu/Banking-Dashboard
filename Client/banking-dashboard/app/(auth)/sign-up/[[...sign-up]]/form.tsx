@@ -16,7 +16,7 @@ export const SignupForm = () => {
     e.preventDefault()
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("http://localhost:3000/api/sign-up", {
         method: "POST",
         body: JSON.stringify({
           email,

@@ -14,9 +14,9 @@ const SignUp = () => {
           <h1 className="font-semibold text-2xl">Create an Account</h1>
           <SignupForm />
           <p className="text-center">
-            Need to create an account?{" "}
+            Already have an account?{" "}
             <Link className="text-indigo-500 hover:underline" href="/sign-in">
-              Create Account
+              Login
             </Link>{" "}
           </p>
         </div>

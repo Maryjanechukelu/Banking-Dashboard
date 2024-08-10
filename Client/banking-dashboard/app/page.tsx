@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
-import { Twitter, Facebook, Instagram } from 'lucide-react';
+import { FaXTwitter, FaInstagram, FaFacebook } from "react-icons/fa6"
 import Link from "next/link";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
           />
         </div>
         <div>
-          <Link href="/sign-up">
+          <Link href="/sign-in">
             <Button className="w-20 bg-blue-700 hover:bg-blue-900" size="lg">
               Login
             </Button>
@@ -100,20 +100,23 @@ export default function Home() {
             <a
               href="#"
               className="text-neutral-400 hover:text-white transition-colors"
+              title="Twitter"
             >
-              <Twitter className="w-5 h-5" />
+              <FaXTwitter className="w-5 h-5" />
             </a>
             <a
               href="#"
               className="text-neutral-400 hover:text-white transition-colors"
+              title="Facebook"
             >
-              <Facebook className="w-5 h-5" />
+              <FaFacebook className="w-5 h-5" />
             </a>
             <a
               href="#"
               className="text-neutral-400 hover:text-white transition-colors"
+              title="Instagram"
             >
-              <Instagram className="w-5 h-5" />
+              <FaInstagram className="w-5 h-5" />
             </a>
           </div>
         </div>
