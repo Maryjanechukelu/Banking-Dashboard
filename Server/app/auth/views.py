@@ -29,11 +29,12 @@ def register():
     
     new_user = User(username=username, email=email)
     new_user.set_password(password)
+    new_user.account_balance = 0.00
     
     db.session.add(new_user)
     db.session.commit()
     
-    return jsonify({"message": "User registered successfully"}), 201
+    return jsonify({"message": "User registered successfully", "account_number": new_user.account_number}), 201
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
@@ -93,14 +94,20 @@ def update_balance():
     
     data = request.get_json()
     username = data.get('username')
-    new_balance = data.get('new_balance')
+    amount = data.get('amount')
+    depositor_name = data.get('depositor_name')
     
     user = User.query.filter_by(username=username).first()
     if user is None:
         return jsonify({"error": "User not found"}), 404
     
-    user.account_balance = new_balance
-    user.last_credited_amount = new_balance  # or any other logic for updating last credited amount
+    user.account_balance += amount
+    user.last_credited_amount = amount
+    
+    # Add a notification
+    notification_message = f"Your account has been credited with {amount:.2f} by {depositor_name}."
+    user.add_notification(notification_message)
+    
     db.session.commit()
     
     return jsonify({"message": "Account balance updated successfully"}), 200
@@ -116,3 +123,57 @@ def logout():
     jti = get_jwt()['jti']
     blacklist.add(jti)
     return jsonify({"message": "Successfully logged out"}), 200
+@auth_blueprint.route('/admin/register', methods=['POST'])
+@jwt_required()
+def register_admin():
+    current_user = get_current_user()
+    
+    # Check if the current user is an admin
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized access"}), 403
+    
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+    
+    if User.query.filter_by(username=username).first() is not None:
+        return jsonify({"error": "Username already taken"}), 400
+    
+    new_admin = User(username=username, email=email)
+    new_admin.set_password(password)
+    new_admin.is_admin = True
+    new_admin.account_balance = 0.00
+    
+    db.session.add(new_admin)
+    db.session.commit()
+    
+    return jsonify({"message": "Admin registered successfully"}), 201
+@auth_blueprint.route('/admin/users', methods=['GET'])
+@jwt_required()
+def get_all_users():
+    current_user = get_current_user()
+    
+    # Check if the current user is an admin
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized access"}), 403
+    
+    users = User.query.all()
+    users_data = [
+        {
+            "username": user.username,
+            "email": user.email,
+            "account_number": user.account_number,
+            "account_balance": user.account_balance,
+            "last_credited_amount": user.last_credited_amount
+        }
+        for user in users
+    ]
+    
+    return jsonify({"users": users_data}), 200
+@auth_blueprint.route('/notifications', methods=['GET'])
+@jwt_required()
+def get_notifications():
+    current_user = get_current_user()
+    return jsonify({"notifications": current_user.notifications}), 200
+
