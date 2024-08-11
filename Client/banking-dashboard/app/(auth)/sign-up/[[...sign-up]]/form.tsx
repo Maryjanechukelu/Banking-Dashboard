@@ -4,40 +4,51 @@ import { Alert } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signIn } from "next-auth/react"
+import { Loader } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
+import { signIn } from "next-auth/react"
 
 export const SignupForm = () => {
-  const [email, setEmail] = useState("")
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
+  const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<string>("")
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    setMessage("")
+    setLoading(true)
     try {
-      const res = await fetch("http://localhost:3000/api/sign-up", {
+      const response = await fetch("http://localhost:3000/api/sign-up", {
+        // Adjust the URL if necessary
         method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ email, password }),
       })
-      if (res.ok) {
-        signIn()
+
+      if (response.ok) {
+        setMessage("Signup successful!")
+        router.push(callbackUrl)
       } else {
-        setError((await res.json()).error)
+        setError("Invalid email or password")
       }
-    } catch (error: any) {
-      setError(error?.message)
+    } catch (error) {
+      setError("An error occurred")
+      setMessage(`Signup failed: ${error}`)
+    } finally {
+      setLoading(false) // Stop loading spinner
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-12 w-full sm:w-[400px]">
+    <form onSubmit={handleSignup} className="space-y-12 w-full sm:w-[400px]">
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -47,6 +58,7 @@ export const SignupForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           id="email"
           type="email"
+          placeholder="Enter Email"
         />
       </div>
       <div className="grid w-full items-center gap-1.5">
@@ -58,13 +70,19 @@ export const SignupForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           id="password"
           type="password"
+          placeholder="Enter Password"
         />
       </div>
       {error && <Alert>{error}</Alert>}
       <div className="w-full">
-        <Button className="w-full bg-blue-700 hover:bg-blue-900" size="lg">
-          Register
+        <Button
+          disabled={loading}
+          className="w-full bg-blue-700 hover:bg-blue-900"
+          size="lg"
+        >
+          {loading ? <Loader className="animate-spin" /> : "Register"}
         </Button>
+        {message && <p>{message}</p>}
       </div>
     </form>
   )

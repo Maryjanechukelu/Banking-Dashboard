@@ -99,21 +99,21 @@ export default function Home() {
           <div className="flex space-x-4">
             <a
               href="#"
-              className="text-neutral-400 hover:text-white transition-colors"
+              className=" hover:text-white transition-colors"
               title="Twitter"
             >
               <FaXTwitter className="w-5 h-5" />
             </a>
             <a
               href="#"
-              className="text-neutral-400 hover:text-white transition-colors"
+              className=" hover:text-white transition-colors"
               title="Facebook"
             >
               <FaFacebook className="w-5 h-5" />
             </a>
             <a
               href="#"
-              className="text-neutral-400 hover:text-white transition-colors"
+              className=" hover:text-white transition-colors"
               title="Instagram"
             >
               <FaInstagram className="w-5 h-5" />

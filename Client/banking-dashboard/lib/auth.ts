@@ -5,7 +5,7 @@ import { serialize, parse } from 'cookie';
 const SECRET_KEY = process.env.SECRET_KEY || 'default-secret-key'; // Use environment variable
 
 interface User {
-  username: string;
+  email: string;
 }
 
 export const generateToken = (user: User): string => {

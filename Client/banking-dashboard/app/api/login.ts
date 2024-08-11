@@ -3,11 +3,11 @@ import { generateToken, setTokenCookie } from '@/lib/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Replace with your own user authentication logic
-    if (username === 'test' && password === 'password') {
-      const token = generateToken({ username });
+    if (email === 'test' && password === 'password') {
+      const token = generateToken({ email });
       setTokenCookie(res, token);
       res.status(200).json({ message: 'Logged in successfully' });
     } else {

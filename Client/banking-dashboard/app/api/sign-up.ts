@@ -1,23 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { hash } from 'bcryptjs';
-import { addUser, getUserByUsername } from '@/lib/userStore';
+import { addUser, getUserByEmail } from '@/lib/userStore';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ message: 'Username and password are required' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    const existingUser = getUserByUsername(username);
+    const existingUser = getUserByEmail(email);
     if (existingUser) {
       return res.status(409).json({ message: 'User already exists' });
     }
 
     try {
       const hashedPassword = await hash(password, 10);
-      addUser({ username, password: hashedPassword });
+      addUser({ email, password: hashedPassword });
       res.status(201).json({ message: 'User signed up successfully' });
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });

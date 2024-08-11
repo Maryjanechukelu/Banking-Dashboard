@@ -1,5 +1,5 @@
 interface User {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -9,6 +9,6 @@ export const addUser = (user: User) => {
   users.push(user);
 };
 
-export const getUserByUsername = (username: string) => {
-  return users.find(user => user.username === username);
+export const getUserByEmail = (email: string) => {
+  return users.find(user => user.email === email);
 };
