@@ -8,7 +8,12 @@ import TotalBalanceBox from '@/components/TotalBalanceBox';
   
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
-  const loggedIn: { firstName?: string, email?: string } = {};
+  const loggedIn: User = {
+    firstName: '', email: '',
+    user: '',
+    lastName: '',
+    name: ''
+  }; // Ensure loggedIn is of type User
   interface Accounts {
     totalBanks: number;
     totalCurrentBalance: number;
@@ -26,7 +31,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const accountsData: Account[] = [];
     
 
-    const account: Account | null = null;
+    const account: Transaction[] = [];
 
   return (
     <section className="home">
@@ -46,18 +51,16 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
           />
         </header>
 
-        {/* <RecentTransactions 
+        <RecentTransactions 
           accounts={accountsData}
-        //   transactions={account?.transactions}
+          transactions={account}
           page={currentPage}
-        /> */}
+        />
       </div>
 
-      {/* <RightSidebar 
-        user={loggedIn?.email || ''}
-        // transactions={account?.transactions}
-        banks={accountsData?.slice(0, 2)}
-      /> */}
+      <RightSidebar 
+        user={loggedIn}
+      />
     </section>
   )
 }
