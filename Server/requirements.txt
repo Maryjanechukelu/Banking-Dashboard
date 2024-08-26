@@ -3,4 +3,4 @@ Flask-SQLAlchemy
 Flask-Migrate
 Flask-Bcrypt
 Flask-JWT-Extended
-
+Flask_CORS
