@@ -1,5 +1,6 @@
 import HeaderBox from '@/components/HeaderBox'
 import RightSidebar from "./../RightSidebar";
+import TotalBalanceBox from '@/components/TotalBalanceBox';
 
 
 declare type SearchParamProps = {
@@ -51,7 +52,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
             user={loggedIn?.firstName || 'Guest'}
             subtext="Access and manage your account and transactions efficiently."
           />
-
+          <TotalBalanceBox />
         </header>
 
        
