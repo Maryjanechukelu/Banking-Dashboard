@@ -6,6 +6,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { formUrlQuery } from "@/lib/utils";
 
+
+declare interface PaginationProps {
+  page: number;
+  totalPages: number;
+}
+
 export const Pagination = ({ page, totalPages }: PaginationProps) => {
   const router = useRouter();
   const searchParams = useSearchParams()!;
