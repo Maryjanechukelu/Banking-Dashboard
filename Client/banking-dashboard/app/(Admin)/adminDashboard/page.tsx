@@ -1,10 +1,20 @@
 import HeaderBox from '@/components/HeaderBox'
-import RecentTransactions from '@/components/RecentTransactions';
-import RightSidebar from '@/components/RightSidebar';
-import TotalBalanceBox from '@/components/TotalBalanceBox';
-// import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
-// import { getLoggedInUser } from '@/lib/actions/user.actions';
+import RightSidebar from "./../RightSidebar";
 
+
+declare type SearchParamProps = {
+  params: { [key: string]: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+declare type User = {
+  user: string
+  email: string
+  firstName: string
+  lastName: string
+  name: string
+  null: string
+}
   
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
@@ -12,7 +22,8 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
     firstName: '', email: '',
     user: '',
     lastName: '',
-    name: ''
+    name: '',
+    null: ''
   }; // Ensure loggedIn is of type User
   interface Accounts {
     totalBanks: number;
@@ -28,10 +39,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
    
   };
   
-  const accountsData: Account[] = [];
-    
-
-    const account: Transaction[] = [];
+  
 
   return (
     <section className="home">
@@ -44,18 +52,9 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
             subtext="Access and manage your account and transactions efficiently."
           />
 
-          <TotalBalanceBox 
-            accounts={accountsData}
-            totalBanks={accounts?.totalBanks}
-            totalCurrentBalance={accounts?.totalCurrentBalance}
-          />
         </header>
 
-        <RecentTransactions 
-          accounts={accountsData}
-          transactions={account}
-          page={currentPage}
-        />
+       
       </div>
 
       <RightSidebar 

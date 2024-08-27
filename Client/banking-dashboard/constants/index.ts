@@ -1,23 +1,61 @@
 export const sidebarLinks = [
   {
     imgURL: "/icons/home.svg",
+    route: "/userDashboard",
+    label: "Home",
+  },
+  {
+    imgURL: "/icons/dollar-circle.svg",
+    route: "/userAccount",
+    label: "My Account",
+  },
+  {
+    imgURL: "/icons/transaction.svg",
+    route: "/userCard",
+    label: "Cards",
+  },
+  {
+    imgURL: "/icons/money-send.svg",
+    route: "/userLoan",
+    label: "Loan Calculator",
+  },
+   {
+    imgURL: "/icons/money-send.svg",
+    route: "/userCalender",
+    label: "Calender",
+  },
+];
+
+export const adminsidebarLinks = [
+    {
+    imgURL: "/icons/home.svg",
     route: "/adminDashboard",
     label: "Home",
   },
   {
     imgURL: "/icons/dollar-circle.svg",
-    route: "/my-banks",
-    label: "My Banks",
+    route: "/my-account",
+    label: "My Account",
   },
   {
     imgURL: "/icons/transaction.svg",
-    route: "/transaction-history",
-    label: "Transaction History",
+    route: "/Card",
+    label: "Cards",
   },
   {
     imgURL: "/icons/money-send.svg",
-    route: "/payment-transfer",
-    label: "Transfer Funds",
+    route: "/Loan",
+    label: "Loan Calculator",
+  },
+   {
+    imgURL: "/icons/money-send.svg",
+    route: "/Calender",
+    label: "Calender",
+  },
+ {
+    imgURL: "/icons/money-send.svg",
+    route: "/Settings",
+    label: "Settings",
   },
 ];
 

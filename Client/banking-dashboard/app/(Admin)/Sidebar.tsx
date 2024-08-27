@@ -1,16 +1,17 @@
 'use client'
 
-import { sidebarLinks } from '@/constants'
+import { adminsidebarLinks } from '@/constants'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import Footer from './Footer'
+import Footer from '@/components/Footer'
 
 
 declare interface SiderbarProps {
   user: User;
 }
+
 declare type User = {
   user: string;
   email: string;
@@ -38,12 +39,12 @@ const Sidebar = ({ user }: SiderbarProps) => {
           <h1 className="sidebar-logo">Ultra</h1>
         </Link>
 
-        {sidebarLinks.map((item) => {
+        {adminsidebarLinks.map((item) => {
           const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`)
 
           return (
             <Link href={item.route} key={item.label}
-              className={cn('sidebar-link', { 'bg-bank-gradient': isActive })}
+              className={cn('sidebar-link',"hover:bg-indigo-200", { 'bg-indigo-900': isActive })}
             >
               <div className="relative size-6">
                 <Image 

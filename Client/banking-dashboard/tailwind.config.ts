@@ -25,8 +25,10 @@ const config = {
         },
         bankGradient: "#0179FE",
         indigo: {
+          200: "#be8bf3",
           500: "#6172F3",
           700: "#3538CD",
+          900: "#68379c",
         },
         success: {
           25: "#F6FEF9",

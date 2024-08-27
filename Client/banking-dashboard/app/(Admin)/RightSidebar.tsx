@@ -18,7 +18,7 @@ type RightSidebarProps = {
 const RightSidebar = ({ user }: RightSidebarProps) => {
   return (
     <aside className="right-sidebar">
-      <section className="flex flex-col pb-8">
+      <section className="flex flex-col pb-8 ">
         <div className="profile-banner" />
         <div className="profile">
           <div className="profile-img">
@@ -36,7 +36,7 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
         </div>
       </section>
 
-      <section className="user-actions">
+      <section className="user-actions px-4">
         <div className="flex w-full justify-between">
           <h2 className="header-2">My Banks</h2>
           <Link href="/" className="flex gap-2">

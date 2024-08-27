@@ -9,12 +9,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { sidebarLinks } from "@/constants"
+import { adminsidebarLinks } from "@/constants"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import Footer from "./Footer"
+import Footer from "@/components/Footer"
 
 declare interface MobileNavProps {
   user: User;
@@ -47,7 +47,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-white">
           <Link
-            href="/"
+            href="/adminDashboard"
             className="cursor-pointer flex items-center gap-1 px-4"
           >
             <Image
@@ -63,7 +63,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
           <div className="mobilenav-sheet">
             <SheetClose asChild>
               <nav className="flex h-full flex-col gap-6 pt-16 text-white">
-                {sidebarLinks.map((item) => {
+                {adminsidebarLinks.map((item) => {
                   const isActive =
                     pathname === item.route ||
                     pathname.startsWith(`${item.route}/`)
@@ -73,8 +73,8 @@ const MobileNav = ({ user }: MobileNavProps) => {
                       <Link
                         href={item.route}
                         key={item.label}
-                        className={cn("mobilenav-sheet_close w-full", {
-                          "bg-bank-gradient": isActive,
+                        className={cn("mobilenav-sheet_close w-full", "hover:bg-indigo-200", {
+                          "bg-indigo-900": isActive,
                         })}
                       >
                         <Image

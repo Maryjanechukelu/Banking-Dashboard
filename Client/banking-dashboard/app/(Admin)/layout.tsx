@@ -1,5 +1,5 @@
-import MobileNav from "@/components/MobileNav";
-import Sidebar from "@/components/MainSidebar";
+import MobileNav from "./MobileNav";
+import Sidebar from "./Sidebar";
 
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -10,7 +10,22 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   
-    const loggedIn = null;
+//   interface MobileNavProps {
+//   user: User;
+// }
+
+  type User = {
+    user: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    name: string;
+  };
+  
+  // Remove the duplicate declaration of 'loggedIn'
+  const loggedIn: User | null = null;
+
+    // const loggedIn = null;
   // if(!loggedIn) redirect('/sign-in')
 
   return (

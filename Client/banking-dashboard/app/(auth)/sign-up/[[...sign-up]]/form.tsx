@@ -89,7 +89,7 @@ export const SignupForm = () => {
       <div className="w-full">
         <Button
           disabled={loading}
-          className="w-full bg-blue-700 hover:bg-blue-900"
+          className="w-full bg-indigo-900 hover:bg-indigo-500 text-white"
           size="lg"
         >
           {loading ? <Loader className="animate-spin" /> : "Register"}
