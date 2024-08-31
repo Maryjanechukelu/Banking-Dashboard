@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banking Dashboard API Documentation</title>
-</head>
-<body>
-    <h1>Banking Dashboard API</h1>
+<h1>Banking Dashboard API</h1>
     <p>This is a RESTful API built with Flask for a banking dashboard application. The API handles user authentication, user account management, and admin functionalities such as crediting, debiting, and editing user information.</p>
     
     <h2>Table of Contents</h2>
