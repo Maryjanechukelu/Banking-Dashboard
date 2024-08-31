@@ -9,15 +9,10 @@ export const sidebarLinks = [
     route: "/userAccount",
     label: "My Account",
   },
-  {
-    imgURL: "/icons/transaction.svg",
-    route: "/userCard",
-    label: "Cards",
-  },
-  {
+   {
     imgURL: "/icons/money-send.svg",
-    route: "/userLoan",
-    label: "Loan Calculator",
+    route: "/userNotification",
+    label: "Notifications",
   },
    {
     imgURL: "/icons/money-send.svg",
@@ -38,14 +33,9 @@ export const adminsidebarLinks = [
     label: "My Account",
   },
   {
-    imgURL: "/icons/transaction.svg",
-    route: "/Card",
-    label: "Cards",
-  },
-  {
     imgURL: "/icons/money-send.svg",
-    route: "/Loan",
-    label: "Loan Calculator",
+    route: "/Notification",
+    label: "Notifications",
   },
    {
     imgURL: "/icons/money-send.svg",

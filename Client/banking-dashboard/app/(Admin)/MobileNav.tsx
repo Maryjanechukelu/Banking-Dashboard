@@ -73,7 +73,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                       <Link
                         href={item.route}
                         key={item.label}
-                        className={cn("mobilenav-sheet_close w-full", "hover:bg-indigo-200", {
+                        className={cn("mobilenav-sheet_close w-full", "hover:bg-gray-200", {
                           "bg-indigo-900": isActive,
                         })}
                       >

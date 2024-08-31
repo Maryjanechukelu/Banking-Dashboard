@@ -5,6 +5,17 @@ import { cn } from "@/lib/utils";
 
 import { Progress } from "@/components/ui/progress";
 
+declare interface CategoryProps {
+  category: CategoryCount;
+}
+
+declare type CategoryCount = {
+  name: string;
+  count: number;
+  totalCount: number;
+};
+
+
 const Category = ({ category }: CategoryProps) => {
   const {
     bg,

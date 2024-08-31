@@ -14,7 +14,7 @@ export default function Home() {
       setLoading(false);
       // Redirect to the sign-up page
       router.push("/sign-up");
-    }, 3000); // 3 seconds
+    }, 1500); // 3 seconds
 
     return () => clearTimeout(timer); // Cleanup the timer
   }, [router]);

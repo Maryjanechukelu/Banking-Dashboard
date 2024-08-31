@@ -13,7 +13,7 @@ const Settings: React.FC = () => {
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Settings</h2>
       <ul className="space-y-4">
         <li>
-          <Link href="/settings/view-users">
+          <Link href="/viewUsers">
             <div
               className="flex items-center p-4 bg-gray-100 hover:bg-indigo-100 rounded-lg 
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
@@ -27,7 +27,7 @@ const Settings: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="/settings/credit-users">
+          <Link href="/creditUsers">
             <div
               className="flex items-center p-4 bg-gray-100 hover:bg-indigo-100 rounded-lg 
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
@@ -41,7 +41,7 @@ const Settings: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="/settings/debit-user">
+          <Link href="/debitUsers">
             <div
               className="flex items-center p-4 bg-gray-100 hover:bg-indigo-100 rounded-lg 
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
@@ -55,7 +55,7 @@ const Settings: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="/settings/edit-user-data">
+          <Link href="/editUserData">
             <div
               className="flex items-center p-4 bg-gray-100 hover:bg-indigo-100 rounded-lg 
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
@@ -69,7 +69,7 @@ const Settings: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="/settings/create-admin-account">
+          <Link href="/createAdmins">
             <div
               className="flex items-center p-4 bg-gray-100 hover:bg-indigo-100 rounded-lg 
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"

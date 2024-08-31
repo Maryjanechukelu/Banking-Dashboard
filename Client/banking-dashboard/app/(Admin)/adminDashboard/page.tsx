@@ -1,3 +1,5 @@
+"use client"
+import React, { useEffect, useState } from "react"
 import HeaderBox from '@/components/HeaderBox'
 import RightSidebar from "./../RightSidebar";
 import TotalBalanceBox from '@/components/TotalBalanceBox';
@@ -8,59 +10,58 @@ declare type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-declare type User = {
-  user: string
+type User = {
+    username: string
+    password: string
+    email: string
+}
+
+interface LoggedInUser {
+  username: string
+  password: string
   email: string
-  firstName: string
-  lastName: string
-  name: string
+  accountNumber: string
+  User: string
   null: string
 }
   
-const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
-  const currentPage = Number(page as string) || 1;
-  const loggedIn: User = {
-    firstName: '', email: '',
-    user: '',
-    lastName: '',
-    name: '',
-    null: ''
-  }; // Ensure loggedIn is of type User
-  interface Accounts {
-    totalBanks: number;
-    totalCurrentBalance: number;
-  }
-    interface types {
-    user: string,
-    bank: string,
-}
-  const accounts: Accounts = {
-    totalBanks: 0,
-      totalCurrentBalance: 0,
-   
-  };
-  
-  
+const Home: React.FC = () => {
+  // const currentPage = Number(page as string) || 1
+   const [loggedIn, setLoggedIn] = useState<LoggedInUser | User>()
+
+   // Simulate fetching logged-in user data
+   useEffect(() => {
+     const fetchLoggedInUser = async () => {
+       try {
+         const response = await fetch("/api/getLoggedInUser") // Adjust endpoint as necessary
+         if (!response.ok) {
+           throw new Error("Failed to fetch user data")
+         }
+         const userData = await response.json()
+         setLoggedIn(userData)
+       } catch (error) {
+         console.error("Error fetching user data:", error)
+       }
+     }
+
+     fetchLoggedInUser()
+   }, [])
 
   return (
     <section className="home">
       <div className="home-content">
         <header className="home-header">
-          <HeaderBox 
+          <HeaderBox
             type="greeting"
             title="Welcome"
-            user={loggedIn?.firstName || 'Guest'}
+            user={loggedIn?.username || "Guest"}
             subtext="Access and manage your account and transactions efficiently."
           />
           <TotalBalanceBox />
         </header>
-
-       
       </div>
 
-      <RightSidebar 
-        user={loggedIn}
-      />
+      <RightSidebar user={loggedIn} />
     </section>
   )
 }

@@ -11,15 +11,13 @@ import Footer from './Footer'
 declare interface SiderbarProps {
   user: User;
 }
+
 declare type User = {
-  user: string;
+  username: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  name: string;
-  null: string;
- 
+  password: string;
 };
+
 
 const Sidebar = ({ user }: SiderbarProps) => {
   const pathname = usePathname();
@@ -43,7 +41,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
 
           return (
             <Link href={item.route} key={item.label}
-              className={cn('sidebar-link', { 'bg-bank-gradient': isActive })}
+              className={cn('sidebar-link', "hover:bg-gray-200", { 'bg-indigo-900': isActive })}
             >
               <div className="relative size-6">
                 <Image 

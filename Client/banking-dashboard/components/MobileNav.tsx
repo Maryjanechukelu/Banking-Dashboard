@@ -21,13 +21,9 @@ declare interface MobileNavProps {
 }
 
 declare type User = {
-  user: string;
+  username: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  name: string;
-  null: string;
- 
+  password: string;
 };
 
 const MobileNav = ({ user }: MobileNavProps) => {
@@ -73,8 +69,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                       <Link
                         href={item.route}
                         key={item.label}
-                        className={cn("mobilenav-sheet_close w-full", {
-                          "bg-bank-gradient": isActive,
+                        className={cn("mobilenav-sheet_close w-full","hover:bg-gray-200", { 'bg-indigo-900': isActive,
                         })}
                       >
                         <Image

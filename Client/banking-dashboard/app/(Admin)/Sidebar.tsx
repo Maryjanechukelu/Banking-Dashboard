@@ -13,13 +13,9 @@ declare interface SiderbarProps {
 }
 
 declare type User = {
-  user: string;
+  username: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  name: string;
-  null: string;
- 
+  password: string;
 };
 
 const Sidebar = ({ user }: SiderbarProps) => {
@@ -44,7 +40,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
 
           return (
             <Link href={item.route} key={item.label}
-              className={cn('sidebar-link',"hover:bg-indigo-200", { 'bg-indigo-900': isActive })}
+              className={cn('sidebar-link',"hover:bg-gray-200", { 'bg-indigo-900': isActive })}
             >
               <div className="relative size-6">
                 <Image 
