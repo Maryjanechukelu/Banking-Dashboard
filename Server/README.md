@@ -1,173 +1,138 @@
-<h1>Banking Dashboard API Documentation</h1>
-<h2>Overview</h2>
-This API provides functionalities for user registration, authentication, account management, and admin-specific operations. The API uses JWT (JSON Web Tokens) for authentication and provides separate endpoints for regular users and admins.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Dashboard API Documentation</title>
+</head>
+<body>
+    <h1>Banking Dashboard API</h1>
+    <p>This is a RESTful API built with Flask for a banking dashboard application. The API handles user authentication, user account management, and admin functionalities such as crediting, debiting, and editing user information.</p>
+    
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#endpoints">Endpoints</a>
+            <ul>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#user-account-management">User Account Management</a></li>
+                <li><a href="#admin-functions">Admin Functions</a></li>
+            </ul>
+        </li>
+        <li><a href="#cors">CORS</a></li>
+        <li><a href="#running-the-application">Running the Application</a></li>
+    </ul>
 
-<h2>Base URL</h2>
-Development: http://127.0.0.1:5000
-<h2>Authentication</h2>
-<h3>1. User Registration</h3>
-<h2>Endpoint: POST /auth/register</h2>
-<h3>Description:</h3> Registers a new user. The user will be assigned a unique account number and an initial account balance of 0.00.
-<h3>Request Body:</h3>
-json
-{
-  "username": "string",
-  "email": "string",
-  "password": "string"
-}
-<h3>Response:</h3>
-<h4>Success (201):</h4>
-json
-{
-  "message": "User registered successfully",
-  "account_number": "unique_account_number"
-}
-Error (400):
-json
-{
-  "error": "Username already taken"
-}
-<h3>2. User Login</h3>
-<h2>Endpoint: POST /auth/login</h2>
-<h3>Description:</h3> Logs in a user and returns a JWT token.
-<h3>Request Body:</h3>
-json
-{
-  "username": "string",
-  "password": "string"
-}
-<h3>Response:</h3>
-<h4>Success (200):</h4>
-json
-{
-  "message": "Login successful",
-  "token": "jwt_token"
-}
-<h4>Error (401):</h4>
-json
-{
-  "error": "Invalid username or password"
-}
-<h3>. User Logout</h3>
-<h3>Endpoint: POST /auth/logout</h3>
-<h3>Description:</3> Logs out the current user. This endpoint requires JWT authentication.
-<h4>Headers:<h4>
-<h4>Authorization:</h4> Bearer <jwt_token>
-<h3>Response:</h3>
-<h4>Success (200):</h4>
-json
-{
-  "message": "Logout successful"
-}
-<h2>User Account Management</h2>
-<h3>1. Get Account Details</h3>
-<h3>Endpoint: GET /account</h3>
-<h3>Description:</h3> Returns the account details of the logged-in user, including balance and last credited amount.
-<h4>Headers:</h4>
-<h4>Authorization:</h4> Bearer <jwt_token>
-<h3>Response:</h3>
-<h4>Success (200):</h4>
-json
-{
-  "username": "string",
-  "account_number": "unique_account_number",
-  "account_balance": 0.00,
-  "last_credited_amount": 0.00
-}
-<h3>2. Get User Notifications</h3>
-<h3>Endpoint: GET /auth/notifications</h3>
-<h3>Description:</h3> Fetches the notifications for the logged-in user, including credit alerts.
-<h4>Headers:</h4>
-<h3>Authorization:</h3> Bearer <jwt_token>
-<h3>Response:</h3>
-<h4>Success (200):</h4>
-json
-{
-  "notifications": [
-    {
-      "message": "Your account has been credited with 100.00 by Admin.",
-      "timestamp": "2024-08-10T12:34:56"
-    }
-  ]
-}
-<h2>Admin Operations</h2>
-<h3>1. Admin Registration</h3>
-<h3>Endpoint: POST /auth/admin/register</h3>
-<h3>Description:</h3> Registers a new admin. This endpoint can only be accessed by an existing admin.
-<h4>Headers:</h4>
-<h3>Authorization:</h3> Bearer <jwt_token>
-<h4>Request Body:</h4>
-json
-{
-  "username": "string",
-  "email": "string",
-  "password": "string"
-}
-<h3>Response:</h3>
-<h4>Success (201):</h4>
-json
-{
-  "message": "Admin registered successfully"
-}
-<h4>Error (403):</h4>
-json
-{
-  "error": "Unauthorized access"
-}
-<h3>2. View All Users</h3>
-<h3>Endpoint: GET /auth/admin/users</h3>
-<h3>Description:</h3> Retrieves a list of all registered users. This endpoint can only be accessed by an admin.
-<h3>Headers:</h3>
-<h3>Authorization:</h3> Bearer <jwt_token>
-<h4>Response:</h4>
-<h3>Success (200):</h3>
-json
-{
-  "users": [
-    {
-      "username": "string",
-      "email": "string",
-      "account_number": "unique_account_number",
-      "account_balance": 0.00,
-      "last_credited_amount": 0.00
-    }
-  ]
-}
-<h3>3. Update User Account Balance</h3>
-<h3>Endpoint: PUT /auth/admin/update_balance</h3>
-<h3>Description:</h3> Allows the admin to credit a user’s account. The user receives a notification of the credit.
-<h3>Headers:</h3>
-<h3>Authorization:</h3> Bearer <jwt_token>
-<h4>Request Body:</h4>
-json
-{
-  "username": "string",
-  "amount": 100.00,
-  "depositor_name": "Admin"
-}
-<h4>Response:</h4>
-<h4>Success (200):</h4>
-json
-{
-  "message": "Account balance updated successfully"
-}
-<h4>Error (403):</h4>
-json
-{
-  "error": "Unauthorized access"
-}
-<h4>Error (404):</h4>
-json
-{
-  "error": "User not found"
-}
-<h2>Authentication and Authorization Notes</h2>
-JWT Tokens are required for most endpoints. Ensure you include the token in the Authorization header as Bearer <jwt_token>.
-<h4>Admin Access:</h4> Only users with is_admin = True can access admin-specific routes.
-<h3>Error Handling</h3>
-All endpoints return standard HTTP status codes along with JSON responses indicating the nature of the error (e.g., 400, 401, 403, 404).
-<h3>Security Considerations</h3>
-Use HTTPS in production to secure the transmission of sensitive data.
-Store JWTs securely on the client side to prevent XSS attacks.
-<h3>Summary</h3>
-This API provides a robust system for managing user accounts and admin operations in a banking dashboard scenario, ensuring secure and efficient handling of user and admin tasks.
+    <h2 id="installation">Installation</h2>
+    <ol>
+        <li>Clone the repository:
+            <pre><code>git clone https://github.com/your-repo/Banking-Dashboard.git
+cd Banking-Dashboard
+            </code></pre>
+        </li>
+        <li>Install the required packages:
+            <pre><code>pip install -r requirements.txt
+            </code></pre>
+        </li>
+        <li>Set up the database:
+            <pre><code>flask db init
+flask db migrate
+flask db upgrade
+            </code></pre>
+        </li>
+    </ol>
+
+    <h2 id="configuration">Configuration</h2>
+    <p>Ensure you have the appropriate configuration settings in <code>app/config.py</code> for database connections, JWT settings, etc.</p>
+
+    <h2 id="endpoints">Endpoints</h2>
+
+    <h3 id="authentication">Authentication</h3>
+    <ul>
+        <li><strong>POST /auth/register</strong>
+            <p>Register a new user.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+    "username": "string",
+    "email": "string",
+    "password": "string"
+}</code></pre>
+        </li>
+
+        <li><strong>POST /auth/login</strong>
+            <p>Log in a user and return a JWT token.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+    "email": "string",
+    "password": "string"
+}</code></pre>
+        </li>
+    </ul>
+
+    <h3 id="user-account-management">User Account Management</h3>
+    <ul>
+        <li><strong>GET /auth/account</strong>
+            <p>Get the details of the logged-in user.</p>
+            <p><strong>Headers:</strong></p>
+            <pre><code>Authorization: Bearer &lt;JWT_TOKEN&gt;
+            </code></pre>
+        </li>
+    </ul>
+
+    <h3 id="admin-functions">Admin Functions</h3>
+    <ul>
+        <li><strong>PUT /auth/admin/credit_user</strong>
+            <p>Credit a user's account.</p>
+            <p><strong>Headers:</strong></p>
+            <pre><code>Authorization: Bearer &lt;JWT_TOKEN&gt;
+            </code></pre>
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+    "username": "string",
+    "amount": 100.00,
+    "depositor_name": "AdminName"
+}</code></pre>
+        </li>
+
+        <li><strong>PUT /auth/admin/debit_user</strong>
+            <p>Debit a user's account.</p>
+            <p><strong>Headers:</strong></p>
+            <pre><code>Authorization: Bearer &lt;JWT_TOKEN&gt;
+            </code></pre>
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+    "username": "string",
+    "amount": 50.00
+}</code></pre>
+        </li>
+
+        <li><strong>PUT /auth/admin/edit_user</strong>
+            <p>Edit a user's information.</p>
+            <p><strong>Headers:</strong></p>
+            <pre><code>Authorization: Bearer &lt;JWT_TOKEN&gt;
+            </code></pre>
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+    "username": "string",
+    "new_username": "new_username",
+    "new_email": "new_email@example.com"
+}</code></pre>
+        </li>
+    </ul>
+
+    <h2 id="cors">CORS</h2>
+    <p>To allow Cross-Origin Resource Sharing (CORS) for your API, the <code>flask-cors</code> package is used. CORS is enabled for all routes, allowing the API to handle requests from different origins.</p>
+
+    <h2 id="running-the-application">Running the Application</h2>
+    <ol>
+        <li>Start the Flask application:
+            <pre><code>flask run
+            </code></pre>
+        </li>
+        <li>Optionally, you can create an initial admin user using the <code>createAdmin.py</code> script:
+            <pre><code>python createAdmin.py
+        </code></pre>
+</body>
+</html>
+

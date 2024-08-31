@@ -85,32 +85,83 @@ def admin_login():
     access_token = create_access_token(identity={'username': user.username}, expires_delta=timedelta(hours=1))
     return jsonify({"access_token": access_token}), 200
 
-@auth_blueprint.route('/admin/update_balance', methods=['PUT'])
+@auth_blueprint.route('/admin/credit_user', methods=['PUT'])
 @jwt_required()
-def update_balance():
+def credit_user():
     current_user = get_current_user()
     if not current_user.is_admin:
         return jsonify({"error": "Unauthorized access"}), 403
-    
+
     data = request.get_json()
     username = data.get('username')
     amount = data.get('amount')
     depositor_name = data.get('depositor_name')
-    
+
     user = User.query.filter_by(username=username).first()
     if user is None:
         return jsonify({"error": "User not found"}), 404
-    
+
     user.account_balance += amount
     user.last_credited_amount = amount
-    
+
     # Add a notification
     notification_message = f"Your account has been credited with {amount:.2f} by {depositor_name}."
     user.add_notification(notification_message)
-    
+
     db.session.commit()
-    
-    return jsonify({"message": "Account balance updated successfully"}), 200
+
+    return jsonify({"message": "Account balance credited successfully"}), 200
+@auth_blueprint.route('/admin/debit_user', methods=['PUT'])
+@jwt_required()
+def debit_user():
+    current_user = get_current_user()
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized access"}), 403
+
+    data = request.get_json()
+    username = data.get('username')
+    amount = data.get('amount')
+
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    if user.account_balance < amount:
+        return jsonify({"error": "Insufficient funds"}), 400
+
+    user.account_balance -= amount
+
+    # Add a notification
+    notification_message = f"Your account has been debited with {amount:.2f}."
+    user.add_notification(notification_message)
+
+    db.session.commit()
+
+    return jsonify({"message": "Account balance debited successfully"}), 200
+@auth_blueprint.route('/admin/edit_user', methods=['PUT'])
+@jwt_required()
+def edit_user():
+    current_user = get_current_user()
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized access"}), 403
+
+    data = request.get_json()
+    username = data.get('username')
+    new_username = data.get('new_username')
+    new_email = data.get('new_email')
+
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    if new_username:
+        user.username = new_username
+    if new_email:
+        user.email = new_email
+
+    db.session.commit()
+
+    return jsonify({"message": "User information updated successfully"}), 200
 
 @auth_blueprint.route('/protected', methods=['GET'])
 @jwt_required()
