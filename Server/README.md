@@ -54,13 +54,13 @@ json
     "email": "string",
     "password": "string"
 }
-User Account Management
-GET /auth/account
+<h2>User Account Management</h2>
+<h2>GET /auth/account</h2>
 Get the details of the logged-in user.
 
 Authorization: Bearer <JWT_TOKEN>
 Admin Functions
-PUT /auth/admin/credit_user
+<h2>/auth/admin/credit_user</h2>
 Credit a user's account.
 
 Authorization: Bearer <JWT_TOKEN>
