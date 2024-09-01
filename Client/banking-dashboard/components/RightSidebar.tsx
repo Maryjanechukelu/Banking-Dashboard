@@ -13,24 +13,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "react-toastify"
 
-// Define the Account interface as per your backend response
 interface Account {
   data: string
   username: string
+  email: string
   account_number: number
   account_balance: number
   last_credited_amount: number
 }
 
 type RightSidebarProps = {
-  user?: {
-    username: string
-    email: string
-  }
-}
-
-const getToken = () => {
-  return localStorage.getItem("access_token")
+  user?: Account // Adjusted to use the Account type directly
 }
 
 const RightSidebar = ({ user }: RightSidebarProps) => {
@@ -39,42 +32,17 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
+      if (!user) {
+        setLoading(false)
+        return
+      }
+
       try {
-        const accessToken = getToken()
-
-        if (!accessToken) {
-          throw new Error("No access token available. Please log in.")
-        }
-
-        const response = await fetch("http://127.0.0.1:5000/auth/account", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-
-        if (!response.ok) {
-          console.error("Response status:", response.status)
-          const errorDetails = await response.json()
-          console.error("Error details:", errorDetails)
-
-          if (response.status === 401) {
-            throw new Error("Unauthorized access. Please log in again.")
-          }
-
-          throw new Error(
-            errorDetails.message ||
-              "Failed to fetch account details. Please try again."
-          )
-        }
-
-        const data: Account = await response.json()
-        setAccount(data)
-        toast.success("Account details fetched successfully")
+        setAccount(user) // Directly use the passed user data as account details
+        toast.success("Account details loaded successfully")
       } catch (error) {
         toast.error(
-          `Error fetching account details: ${(error as Error).message}`
+          `Error loading account details: ${(error as Error).message}`
         )
       } finally {
         setLoading(false)
@@ -82,78 +50,74 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
     }
 
     fetchAccountDetails()
-  }, [])
+  }, [user]) // Dependencies include user to refresh if user data changes
 
-  // Loading state
   if (loading) {
-    return <div>Loading account details...</div>
+    return <div className="p-4">Loading account details...</div>
   }
 
-  // Fallback for missing user data
-  if (!user) {
-    return <div>No user data available</div>
+  if (!account) {
+    return <div>No account details available</div>
   }
 
   return (
-    <aside className="right-sidebar">
-      <section className="flex flex-col pb-8 ">
+    <aside className="right-sidebar bg-white rounded-lg shadow-lg p-4">
+      <section className="flex flex-col pb-8">
         <div className="profile-banner" />
-        <div className="profile">
-          <div className="profile-img">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>BT</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href="/profile">Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/login">Logout</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
+        <div className="profile flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>BT</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href="/profile">Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/login">Logout</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <div className="profile-details">
-            <h1 className="profile-name">{user.username}</h1>
-            <p className="profile-email">{user.email}</p>
+            <h1 className="profile-name text-lg font-semibold">
+              {account.username}
+            </h1>
+            <p className="profile-email text-sm text-gray-600">
+              {account.email}
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="user-actions px-4">
-        <div className="flex w-full justify-between">
-          <h2 className="header-2">My Banks</h2>
-          <Link href="/adminDashboard" className="flex gap-2">
+      <section className="user-actions mt-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Account</h2>
+          <Link href="/userDashboard" className="flex items-center gap-2">
             <Image src="/icons/plus.svg" width={20} height={20} alt="plus" />
-            <h2 className="text-14 font-semibold text-gray-600">Add Bank</h2>
+            <span className="text-sm font-medium text-gray-600">Add Bank</span>
           </Link>
         </div>
 
-        {/* Display account details */}
-        <div className="mt-10 flex flex-1 flex-col gap-6">
-          {account ? (
-            <>
-              <h2 className="header-2">Account Details</h2>
-              <p>Account Number: {account.account_number}</p>
-              <p>Balance: ${account.account_balance.toFixed(2)}</p>
-              <p>
-                Last Credited Amount: ${account.last_credited_amount.toFixed(2)}
-              </p>
-            </>
-          ) : (
-            <p>No account details available</p>
-          )}
-        </div>
+        {account ? (
+          <div className="flex flex-col gap-2 text-sm text-gray-800">
+            <h2 className="font-medium">Account Details</h2>
+            <p>Account Number: {account.account_number}</p>
+            <p>Balance: ${account.account_balance.toFixed(2)}</p>
+            <p>
+              Last Credited Amount: ${account.last_credited_amount.toFixed(2)}
+            </p>
+          </div>
+        ) : (
+          <p>No account details available</p>
+        )}
       </section>
     </aside>
   )

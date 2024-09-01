@@ -9,14 +9,13 @@ interface Notification {
   timestamp: string
 }
 
-// Utility function to store the token
-const storeToken = (token: string) => {
-  localStorage.setItem("jwt_token", token)
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
 }
 
 // Utility function to get the stored token
 const getToken = () => {
-  return localStorage.getItem("jwt_token")
+  return localStorage.getItem("access_token")
 }
 
 const NotificationsPage: React.FC = () => {
@@ -27,15 +26,18 @@ const NotificationsPage: React.FC = () => {
     const fetchNotifications = async () => {
       setLoading(true)
       try {
-        const token = getToken() // Retrieve the token from storage
+        const accessToken = getToken()
 
-        const response = await fetch("http://127.0.0.1:5000/auth/notifications", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, // Use the retrieved token
-          },
-        })
+        const response = await fetch(
+          "http://127.0.0.1:5000/auth/notifications",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`, // Use the retrieved token
+            },
+          }
+        )
 
         if (!response.ok) {
           throw new Error("Failed to fetch notifications. Please try again.")
@@ -44,12 +46,12 @@ const NotificationsPage: React.FC = () => {
         const data = await response.json()
 
         // If a new token is provided in the response, store it
-        if (data.token) {
-          storeToken(data.token)
-        }
+         if (data.access_token) {
+           storeToken(data.access_token)
+         }
 
-        setNotifications(data.notifications)
-        toast.success("Notifications fetched successfully")
+        setNotifications(data)
+        toast.success("Successful")
       } catch (error) {
         toast.error(`Error fetching notifications: ${(error as Error).message}`)
       } finally {

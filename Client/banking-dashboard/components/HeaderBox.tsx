@@ -1,3 +1,6 @@
+// HeaderBox.tsx
+import React from 'react';
+
 declare interface HeaderBoxProps {
   type?: "title" | "greeting";
   title: string;
@@ -15,13 +18,16 @@ const HeaderBox = ({
     <div className="header-box">
       <h1 className="header-box-title">
         {title}
-        {type === "greeting" && (
+        {/* Ensure that the user is displayed only when type is 'greeting' and user is present */}
+        {type === "greeting" && user ? (
           <span className="text-indigo-900">&nbsp;{user}</span>
+        ) : (
+          type === "greeting" && <span className="text-indigo-900">&nbsp;Guest</span> // Fallback for missing user
         )}
       </h1>
       <p className="header-box-subtext">{subtext}</p>
     </div>
-  )
-}
+  );
+};
 
-export default HeaderBox
+export default HeaderBox;

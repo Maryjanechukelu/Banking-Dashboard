@@ -1,21 +1,21 @@
 export const sidebarLinks = [
   {
-    imgURL: "/icons/home.svg",
+    imgURL: "/icons/house.svg",
     route: "/userDashboard",
     label: "Home",
   },
   {
-    imgURL: "/icons/dollar-circle.svg",
+    imgURL: "/icons/square-user-round.svg",
     route: "/userAccount",
     label: "My Account",
   },
    {
-    imgURL: "/icons/money-send.svg",
+    imgURL: "/icons/bell.svg",
     route: "/userNotification",
     label: "Notifications",
   },
    {
-    imgURL: "/icons/money-send.svg",
+    imgURL: "/icons/calendar-days.svg",
     route: "/userCalender",
     label: "Calender",
   },
@@ -23,27 +23,27 @@ export const sidebarLinks = [
 
 export const adminsidebarLinks = [
     {
-    imgURL: "/icons/home.svg",
+    imgURL: "/icons/house.svg",
     route: "/adminDashboard",
     label: "Home",
   },
   {
-    imgURL: "/icons/dollar-circle.svg",
+    imgURL: "/icons/square-user-round.svg",
     route: "/my-account",
     label: "My Account",
   },
   {
-    imgURL: "/icons/money-send.svg",
+    imgURL: "/icons/bell.svg",
     route: "/Notification",
     label: "Notifications",
   },
    {
-    imgURL: "/icons/money-send.svg",
+    imgURL: "/icons/calendar-days.svg",
     route: "/Calender",
     label: "Calender",
   },
  {
-    imgURL: "/icons/money-send.svg",
+    imgURL: "/icons/settings.svg",
     route: "/Settings",
     label: "Settings",
   },

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Loader } from "lucide-react"
 
 export default function Home() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function Home() {
           />
         </div>
       ) : (
-        <p>Redirecting...</p>
+       <Loader className="animate-spin" />
       )}
     </div>
   );

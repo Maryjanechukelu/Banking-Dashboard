@@ -1,51 +1,103 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import HeaderBox from '@/components/HeaderBox'
 import RightSidebar from "./../RightSidebar";
 import TotalBalanceBox from '@/components/TotalBalanceBox';
+import { toast } from "react-toastify"
 
 
-declare type SearchParamProps = {
-  params: { [key: string]: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-type User = {
-    username: string
-    password: string
-    email: string
-}
-
-interface LoggedInUser {
-  username: string
-  password: string
+interface Account {
   email: string
-  accountNumber: string
-  User: string
-  null: string
+  data: string
+  username: string
+  account_number: number
+  account_balance: number
+  last_credited_amount: number
 }
-  
+
+interface User {
+  data: string
+  username: string
+  email: string
+  account_number: number
+  account_balance: number
+  last_credited_amount: number
+}
+
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
+
 const Home: React.FC = () => {
-  // const currentPage = Number(page as string) || 1
-   const [loggedIn, setLoggedIn] = useState<LoggedInUser | User>()
+  const [accounts, setAccounts] = useState<Account[]>([])
+  const [user, setUser] = useState<User>()
+  const hasFetchedData = useRef(false)
 
-   // Simulate fetching logged-in user data
-   useEffect(() => {
-     const fetchLoggedInUser = async () => {
-       try {
-         const response = await fetch("/api/getLoggedInUser") // Adjust endpoint as necessary
-         if (!response.ok) {
-           throw new Error("Failed to fetch user data")
-         }
-         const userData = await response.json()
-         setLoggedIn(userData)
-       } catch (error) {
-         console.error("Error fetching user data:", error)
-       }
-     }
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      // Check if data has already been fetched to prevent multiple fetches
+      if (hasFetchedData.current) return
+      try {
+        const accessToken = getToken()
+        if (!accessToken) {
+          throw new Error("No access token available. Please log in.")
+        }
 
-     fetchLoggedInUser()
-   }, [])
+        const response = await fetch("http://127.0.0.1:5000/auth/account", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error("Unauthorized access. Please log in again.")
+          }
+          throw new Error("Failed to fetch account details. Please try again.")
+        }
+
+        const data: Account[] = await response.json()
+
+        // Store the token if provided
+        if (data[0]?.data) {
+          storeToken(data[0].data)
+        }
+
+        setAccounts(data)
+
+        // Map Account data to User data
+        if (data.length > 0) {
+          const userData: User = {
+            data: data[0].data,
+            username: data[0].username,
+            email: data[0].email,
+            account_number: data[0].account_number,
+            account_balance: data[0].account_balance,
+            last_credited_amount: data[0].last_credited_amount,
+          }
+          setUser(userData)
+        }
+
+        toast.success("Successful")
+      } catch (error) {
+        toast.error(
+          `Error fetching account details: ${(error as Error).message}`
+        )
+      } finally {
+        // Mark data as fetched to prevent multiple toasts
+        hasFetchedData.current = true
+      }
+    }
+
+    fetchAccountDetails()
+  }, [])
 
   return (
     <section className="home">
@@ -54,14 +106,14 @@ const Home: React.FC = () => {
           <HeaderBox
             type="greeting"
             title="Welcome"
-            user={loggedIn?.username || "Guest"}
+            user={user?.username}
             subtext="Access and manage your account and transactions efficiently."
           />
           <TotalBalanceBox />
         </header>
       </div>
 
-      <RightSidebar user={loggedIn} />
+      <RightSidebar user={user} />
     </section>
   )
 }

@@ -7,14 +7,33 @@ import { Label } from "@/components/ui/label"
 import { Loader } from "lucide-react"
 import BackButton from '@/components/backButton';
 
-const storeToken = (token: string) => {
-  localStorage.setItem("jwt_token", token)
+interface Account {
+  email: string
+  data: string
+  username: string
+  account_number: number
+  account_balance: number
+  last_credited_amount: number
+}
+
+interface User {
+  data: string
+  username: string
+  email: string
+  account_number: number
+  account_balance: number
+  last_credited_amount: number
+}
+
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
 }
 
 // Utility function to get the stored token
 const getToken = () => {
-  return localStorage.getItem("jwt_token")
+  return localStorage.getItem("access_token")
 }
+
 const CreateAdminAccountPage: React.FC = () => {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
@@ -26,12 +45,15 @@ const CreateAdminAccountPage: React.FC = () => {
     setLoading(true)
 
     try {
-      const token = getToken() 
+      const accessToken = getToken()
+      if (!accessToken) {
+        throw new Error("No access token available. Please log in.")
+      }
       const response = await fetch("http://127.0.0.1:5000/auth/admin/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ username, email, password }),
       })
@@ -39,12 +61,12 @@ const CreateAdminAccountPage: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to create admin account. Please try again.")
       }
-        const data = await response.json()
+        const data: Account[] = await response.json()
 
-        // If a new token is provided in the response, store it
-        if (data.token) {
-          storeToken(data.token)
-        }   
+        // Store the token if provided
+        if (data[0]?.data) {
+          storeToken(data[0].data)
+        }
       toast.success("Admin account created successfully")
     } catch (error) {
       toast.error(`Error creating admin account: ${(error as Error).message}`)
