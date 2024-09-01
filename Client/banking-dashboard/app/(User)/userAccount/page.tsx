@@ -37,7 +37,7 @@ const UserAccountsPage: React.FC = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, // Replace with actual token handling logic
+            Authorization: `Bearer ${token}`, // Replace with actual token handling logic
           },
         })
 
