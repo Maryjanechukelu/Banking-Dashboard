@@ -13,9 +13,13 @@ auth_blueprint = Blueprint('auth', __name__)
 
 # Utility function to get current user
 def get_current_user():
-    current_user_identity = get_jwt_identity()
-    current_user = User.query.filter_by(username=current_user_identity['username']).first()
-    return current_user
+    try:
+        current_user_identity = get_jwt_identity()
+        if current_user_identity:
+            return User.query.filter_by(username=current_user_identity['username']).first()
+    except Exception as e:
+        print(f"Error retrieving current user: {e}")
+    return None
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():
@@ -65,7 +69,7 @@ def login():
 @jwt_required()
 def account():
     current_user = get_current_user()
-    print (current_user)
+    print(current_user)
     return jsonify({
         "username": current_user.username,
         "email": current_user.email,
