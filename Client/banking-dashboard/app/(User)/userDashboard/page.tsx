@@ -37,6 +37,7 @@ const Home: React.FC = () => {
     const fetchAccountDetails = async () => {
       try {
         const accessToken = getToken();
+        console.log(accessToken)
 
         if (!accessToken) {
           throw new Error("No access token available. Please log in.");
