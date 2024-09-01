@@ -9,14 +9,11 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { toast } from "react-toastify"
 
-const storeToken = (token: string) => {
-  localStorage.setItem("jwt_token", token)
-}
 
-// Utility function to get the stored token
-const getToken = () => {
-  return localStorage.getItem("jwt_token")
-}
+const storeToken = (token: string) => {
+  localStorage.setItem("access_token", token); // Store under the key 'access_token'
+};
+
 
 export const SigninForm = () => {
   const router = useRouter()
@@ -40,11 +37,11 @@ export const SigninForm = () => {
       })
 
       if (response.ok) {
-        const data = await response.json()
+        const data = await response.json()    
+       const accessToken = data.access_token; // Access the token using the correct key
 
-        // Check if token is provided and store it
-        if (data.token) {
-          storeToken(data.token)
+        if (accessToken) {
+          storeToken(data.accessToken)
           toast.success("Login successful!")
           setRedirecting(true) // Start redirecting loader
 

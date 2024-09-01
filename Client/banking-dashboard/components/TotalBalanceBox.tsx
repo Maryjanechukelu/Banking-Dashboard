@@ -13,6 +13,15 @@ interface Account {
   last_credited_amount: number
 }
 
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
+
 const TotalBalanceBox: React.FC = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,34 +31,49 @@ const TotalBalanceBox: React.FC = () => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
+        const accessToken = getToken()
+
+        if (!accessToken) {
+          throw new Error("No access token available. Please log in.")
+        }
+
         const response = await fetch("http://127.0.0.1:5000/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer your_jwt_token`, // Replace with actual token handling logic
+            Authorization: `Bearer ${accessToken}`, // Replace with actual token handling logic
           },
-        });
+        })
 
         if (!response.ok) {
-          throw new Error("Failed to fetch account details. Please try again.");
+          // Handle 401 unauthorized error separately
+          if (response.status === 401) {
+            throw new Error("Unauthorized access. Please log in again.")
+          }
+          throw new Error("Failed to fetch account details. Please try again.")
         }
 
-        const data = await response.json();
-        setAccounts(data.accounts); // Adjust according to your actual response structure
-        toast.success("Accounts fetched successfully");
+        const data = await response.json()
+        // If a new token is provided in the response, store it
+        if (data.access_token) {
+          storeToken(data.access_token)
+        }
+        setAccounts(data)
+        toast.success("Account details fetched successfully")
       } catch (error) {
-        setError((error as Error).message);
-        toast.error(`Error fetching accounts: ${(error as Error).message}`);
+        toast.error(
+          `Error fetching account details: ${(error as Error).message}`
+        )
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-   fetchAccounts()
-  }, []);
+    fetchAccounts()
+  }, [])
 
-  const totalCurrentBalance = accounts.reduce((acc, account) => acc + account.account_balance, 0);
-  const totalBanks = accounts.length;
+  const totalCurrentBalance = accounts.reduce((acc, account) => acc + account.account_balance,0);
+  // const totalBanks = accounts.length;
 
   if (loading) {
     return (
@@ -71,9 +95,9 @@ const TotalBalanceBox: React.FC = () => {
       </div>
 
       <div className="flex flex-col gap-6 mt-4">
-        <h2 className="header-2 text-lg font-semibold text-gray-800">
+        {/* <h2 className="header-2 text-lg font-semibold text-gray-800">
           Bank Accounts: {totalBanks}
-        </h2>
+        </h2> */}
         <div className="flex flex-col gap-2">
           <p className="total-balance-label text-sm text-gray-600">
             Total Current Balance

@@ -13,13 +13,13 @@ interface AccountDetails {
 }
 
 
-const storeToken = (token: string) => {
-  localStorage.setItem("jwt_token", token)
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
 }
 
 // Utility function to get the stored token
 const getToken = () => {
-  return localStorage.getItem("jwt_token")
+  return localStorage.getItem("access_token")
 }
 
 const UserAccountsPage: React.FC = () => {
@@ -31,25 +31,33 @@ const UserAccountsPage: React.FC = () => {
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
-        const token = getToken() 
+        const accessToken = getToken() 
+
+        if (!accessToken) {
+          throw new Error("No access token available. Please log in.")
+        }
 
         const response = await fetch("http://127.0.0.1:5000/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, // Replace with actual token handling logic
+            "Authorization": `Bearer ${accessToken}`, // Replace with actual token handling logic
           },
         })
-
+         
         if (!response.ok) {
-          throw new Error("Failed to fetch account details. Please try again.")
+          // Handle 401 unauthorized error separately
+          if (response.status === 401) {
+            throw new Error("Unauthorized access. Please log in again.");
+          }
+          throw new Error("Failed to fetch account details. Please try again.");
         }
 
         const data = await response.json()
         // If a new token is provided in the response, store it
-        if (data.token) {
-          storeToken(data.token)
-        }
+         if (data.access_token) {
+           storeToken(data.access_token)
+         }
         setAccountDetails(data)
         toast.success("Account details fetched successfully")
       } catch (error) {
