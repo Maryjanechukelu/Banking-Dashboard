@@ -33,11 +33,11 @@ const UserAccountsPage: React.FC = () => {
       try {
         const token = getToken() 
 
-        const response = await fetch("http://127.0.0.1:5000/account", {
+        const response = await fetch("http://127.0.0.1:5000/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Replace with actual token handling logic
+            "Authorization": `Bearer ${token}`, // Replace with actual token handling logic
           },
         })
 

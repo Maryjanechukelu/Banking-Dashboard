@@ -31,12 +31,10 @@ export const SigninForm = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      const token = getToken() // Retrieve the token from storage
       const response = await fetch("http://127.0.0.1:5000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ username, password }),
       })
@@ -44,27 +42,32 @@ export const SigninForm = () => {
       if (response.ok) {
         const data = await response.json()
 
-        // If a new token is provided in the response, store it
+        // Check if token is provided and store it
         if (data.token) {
           storeToken(data.token)
-        }
+          toast.success("Login successful!")
+          setRedirecting(true) // Start redirecting loader
 
-        toast.success("Login successful!")
-        setRedirecting(true) // Start redirecting loader
-
-        // Determine the redirection path based on user role
-        const userRole = data.role // Assuming the role is provided in the response
-        if (userRole === "admin") {
-          // Redirect to admin dashboard
-          router.push("/adminDashboard")
+          // Determine the redirection path based on user role
+          const userRole = data.role // Assuming the role is provided in the response
+          if (userRole === "admin") {
+            // Redirect to admin dashboard
+            router.push("/adminDashboard")
+          } else {
+            // Redirect to user dashboard
+            router.push(callbackUrl) // Default or user-specific callback URL
+          }
         } else {
-          // Redirect to user dashboard
-          router.push(callbackUrl) // Default or user-specific callback URL
+          // Handle cases where the token might be missing from the response
+          toast.error("Login failed: No token received.")
         }
       } else {
-        toast.error("Invalid username or password")
+        // Handle non-2xx HTTP status codes
+        const errorResponse = await response.json()
+        toast.error(errorResponse.message || "Invalid username or password")
       }
     } catch (error) {
+      // Handle network or unexpected errors
       toast.error(`Login failed: ${(error as Error).message}`)
     } finally {
       setLoading(false)

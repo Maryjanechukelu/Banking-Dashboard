@@ -49,7 +49,8 @@ def login():
     
     access_token = create_access_token(identity={'username': user.username}, expires_delta=timedelta(hours=1))
     refresh_token = create_refresh_token(identity={'username': user.username})
-    
+    print (access_token)
+    print ("access_token")
     return jsonify({"access_token": access_token, "refresh_token": refresh_token}), 200
 
 #@auth_blueprint.route('/logout', methods=['POST'])
