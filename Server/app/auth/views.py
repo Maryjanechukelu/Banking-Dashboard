@@ -175,12 +175,15 @@ def edit_user():
 def protected():
     current_user = get_current_user()
     return jsonify(logged_in_as=current_user.username), 200
+blacklist = set()
+
 @auth_blueprint.route('/logout', methods=['POST'])
 @jwt_required()
 def logout():
-    jti = get_jwt()['jti']
-    blacklist.add(jti)
+    jti = get_jwt()['jti']  # JWT ID
+    blacklist.add(jti)  # Add the token to the blacklist
     return jsonify({"message": "Successfully logged out"}), 200
+
 @auth_blueprint.route('/admin/register', methods=['POST'])
 @jwt_required()
 def register_admin():
