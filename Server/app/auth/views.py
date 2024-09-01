@@ -73,6 +73,7 @@ def account():
     return jsonify({
         "username": current_user.username,
         "email": current_user.email,
+        "account_number": current_user.account_number,
         "account_balance": current_user.account_balance,
         "last_credited_amount": current_user.last_credited_amount
     }), 200
@@ -226,7 +227,7 @@ def get_all_users():
         }
         for user in users
     ]
-    
+    print(user.account_number)
     return jsonify({"users": users_data}), 200
 @auth_blueprint.route('/notifications', methods=['GET'])
 @jwt_required()
