@@ -65,6 +65,7 @@ def login():
 @jwt_required()
 def account():
     current_user = get_current_user()
+    print (current_user)
     return jsonify({
         "username": current_user.username,
         "email": current_user.email,
