@@ -50,7 +50,7 @@ const DebitUserPage: React.FC = () => {
         <BackButton text='Go Back' link='/Settings' />
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto px-4">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4">
         <div>
           <Label className="block text-sm font-medium text-gray-700">
             Account Number

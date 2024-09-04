@@ -32,6 +32,7 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
+      console.log("Fetching account details", user) // Log user details
       if (!user) {
         setLoading(false)
         return
@@ -57,6 +58,7 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
   }
 
   if (!account) {
+    console.log("No account details available")
     return <div>No account details available</div>
   }
 

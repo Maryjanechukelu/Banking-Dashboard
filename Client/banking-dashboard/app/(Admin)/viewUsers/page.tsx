@@ -104,7 +104,7 @@ const ViewUsersPage: React.FC = () => {
         </div>
       )}
       {/* Pagination Component */}
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-[500px]">
         <PostsPagination
           currentPage={currentPage}
           totalPages={totalPages}
