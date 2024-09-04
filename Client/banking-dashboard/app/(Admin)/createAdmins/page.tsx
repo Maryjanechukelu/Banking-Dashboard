@@ -79,63 +79,68 @@ const CreateAdminAccountPage: React.FC = () => {
     <>
       <div className="flex justify-between p-4">
         <div>
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-indigo-900">
-        Create Admin Account
-      </h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-indigo-900">
+            Create Admin Account
+          </h1>
+        </div>
+        <div>
+          <BackButton text="Go Back" link="/Settings" />
+        </div>
       </div>
-      <div>
-        <BackButton text='Go Back' link='/Settings' />
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto px-4">
-        <div>
-          <Label className="block text-sm font-medium text-gray-700">
-            Username
-          </Label>
-          <Input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-            required
-          />
-        </div>
-        <div>
-          <Label className="block text-sm font-medium text-gray-700">
-            Email
-          </Label>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-            required
-          />
-        </div>
-        <div>
-          <Label className="block text-sm font-medium text-gray-700">
-            Password
-          </Label>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-            required
-          />
-        </div>
-        <Button
-          type="submit"
-          className="px-4 py-2 bg-indigo-900 text-white rounded-md w-full sm:w-auto"
-          disabled={loading}
+      <div className="flex justify-center p-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4"
         >
-          {loading ? (
-            <Loader className="animate-spin" size={20} />
-          ) : (
-            "Create Admin"
-          )}
-        </Button>
-      </form>
+          <div>
+            <Label className="block text-sm font-medium text-gray-700">
+              Username
+            </Label>
+            <Input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              required
+            />
+          </div>
+          <div>
+            <Label className="block text-sm font-medium text-gray-700">
+              Email
+            </Label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              required
+            />
+          </div>
+          <div>
+            <Label className="block text-sm font-medium text-gray-700">
+              Password
+            </Label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              required
+            />
+          </div>
+          <Button
+            type="submit"
+            className="px-4 py-2 bg-indigo-900 text-white rounded-md w-full sm:w-auto"
+            disabled={loading}
+          >
+            {loading ? (
+              <Loader className="animate-spin" size={20} />
+            ) : (
+              "Create Admin"
+            )}
+          </Button>
+        </form>
+      </div>
     </>
   )
 }

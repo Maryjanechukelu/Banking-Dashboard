@@ -23,10 +23,11 @@ declare interface MobileNavProps {
 declare type User = {
   user: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  username: string;
+  password: string;
   name: string;
   null: string;
+
  
 };
 
