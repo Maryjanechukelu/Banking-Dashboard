@@ -35,62 +35,195 @@ This is a RESTful API built with Flask for a banking dashboard application. The 
 
 Ensure you have the appropriate configuration settings in `app/config.py` for database connections, JWT settings, etc.
 
-## Endpoints
+## API Endpoints
 
-### Authentication
+All the following endpoints are part of the `auth` Blueprint and are located in the `auth` folder (`backend/app/auth/views.py`).
 
-- **POST `/auth/register`**  
-  Register a new user.
-  ```json
-  {
-      "username": "string",
-      "email": "string",
-      "password": "string"
-  }
-<h2>'POST /auth/login' </h2>
-Log in a user and return a JWT token.
-json
-{
-    "email": "string",
-    "password": "string"
-}
-<h2>User Account Management</h2>
-<h2>GET /auth/account</h2>
-Get the details of the logged-in user.
+### Authentication and User Management
 
-Authorization: Bearer <JWT_TOKEN>
-Admin Functions
-<h2>/auth/admin/credit_user</h2>
-Credit a user's account.
+#### 1. **User Registration**
+   - **Endpoint:** `/auth/register`
+   - **Method:** `POST`
+   - **Description:** Registers a new user.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
+   - **Response:** 
+     - `201 Created` - User registered successfully with an account number.
 
-Authorization: Bearer <JWT_TOKEN>
-json
-{
-    "username": "string",
-    "amount": 100.00,
-    "depositor_name": "AdminName"
-}
-<h2>PUT /auth/admin/debit_user</h2>
-Debit a user's account.
+#### 2. **User Login**
+   - **Endpoint:** `/auth/login`
+   - **Method:** `POST`
+   - **Description:** Logs in an existing user and returns JWT tokens.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "password": "string"
+     }
+     ```
+   - **Response:** 
+     - `200 OK` - Access and refresh tokens returned.
+     ```json
+     {
+       "access_token": "string",
+       "refresh_token": "string"
+     }
+     ```
 
-Authorization: Bearer <JWT_TOKEN>
-json
+#### 3. **User Account Details**
+   - **Endpoint:** `/auth/account`
+   - **Method:** `GET`
+   - **Description:** Retrieves the current user's account details.
+   - **Authorization:** Requires JWT in the `Authorization` header.
+   - **Response:** 
+     - `200 OK` - User account information returned.
+     ```json
+     {
+       "username": "string",
+       "email": "string",
+       "account_number": "string",
+       "account_balance": "float",
+       "last_credited_amount": "float"
+     }
+     ```
 
-{
-    "username": "string",
-    "amount": 50.00
-}
-<h2>PUT /auth/admin/edit_user</h2>
-Edit a user's information.
+#### 4. **User Logout**
+   - **Endpoint:** `/auth/logout`
+   - **Method:** `POST`
+   - **Description:** Logs out the current user by blacklisting their JWT token.
+   - **Authorization:** Requires JWT in the `Authorization` header.
+   - **Response:** 
+     - `200 OK` - Logout confirmation message returned.
 
-<h2>Authorization: Bearer <JWT_TOKEN> </h2>
-json
-{
-    "username": "string",
-    "new_username": "new_username",
-    "new_email": "new_email@example.com"
-}
-CORS
+#### 5. **User Notifications**
+   - **Endpoint:** `/auth/notifications`
+   - **Method:** `GET`
+   - **Description:** Retrieves the current user's notifications.
+   - **Authorization:** Requires JWT in the `Authorization` header.
+   - **Response:** 
+     - `200 OK` - List of notifications returned.
+     ```json
+     {
+       "notifications": ["string"]
+     }
+     ```
+
+### Admin-Specific Endpoints
+
+#### 1. **Admin Login**
+   - **Endpoint:** `/auth/admin/login`
+   - **Method:** `POST`
+   - **Description:** Logs in an admin user and returns an access token.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "password": "string"
+     }
+     ```
+   - **Response:** 
+     - `200 OK` - Access token returned.
+     ```json
+     {
+       "access_token": "string"
+     }
+     ```
+
+#### 2. **Admin Register**
+   - **Endpoint:** `/auth/admin/register`
+   - **Method:** `POST`
+   - **Description:** Registers a new admin user.
+   - **Authorization:** Requires Admin JWT in the `Authorization` header.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
+   - **Response:** 
+     - `201 Created` - Admin registered successfully.
+
+#### 3. **Credit User Account**
+   - **Endpoint:** `/auth/admin/credit_user`
+   - **Method:** `PUT`
+   - **Description:** Credits a user's account balance.
+   - **Authorization:** Requires Admin JWT in the `Authorization` header.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "amount": "float",
+       "depositor_name": "string"
+     }
+     ```
+   - **Response:** 
+     - `200 OK` - Account balance credited successfully.
+
+#### 4. **Debit User Account**
+   - **Endpoint:** `/auth/admin/debit_user`
+   - **Method:** `PUT`
+   - **Description:** Debits a user's account balance.
+   - **Authorization:** Requires Admin JWT in the `Authorization` header.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "amount": "float"
+     }
+     ```
+   - **Response:** 
+     - `200 OK` - Account balance debited successfully.
+
+#### 5. **Edit User Information**
+   - **Endpoint:** `/auth/admin/edit_user`
+   - **Method:** `PUT`
+   - **Description:** Edits a user's information (username and/or email).
+   - **Authorization:** Requires Admin JWT in the `Authorization` header.
+   - **Request Body:**
+     ```json
+     {
+       "username": "string",
+       "new_username": "string",
+       "new_email": "string"
+     }
+     ```
+   - **Response:** 
+     - `200 OK` - User information updated successfully.
+
+#### 6. **Get All Users**
+   - **Endpoint:** `/auth/admin/users`
+   - **Method:** `GET`
+   - **Description:** Retrieves all user accounts.
+   - **Authorization:** Requires Admin JWT in the `Authorization` header.
+   - **Response:** 
+     - `200 OK` - List of all users returned.
+     ```json
+     {
+       "users": [
+         {
+           "username": "string",
+           "email": "string",
+           "account_number": "string",
+           "account_balance": "float",
+           "last_credited_amount": "float"
+         }
+       ]
+     }
+     ```
+
+#### 7. **Protected Route**
+   - **Endpoint:** `/auth/protected`
+   - **Method:** `GET`
+   - **Description:** A test route to check if a user is logged in.
+
 To allow Cross-Origin Resource Sharing (CORS) for your API, the flask-cors package is used. CORS is enabled for all routes, allowing the API to handle requests from different origins.
 
 Running the Application

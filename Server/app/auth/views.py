@@ -37,6 +37,14 @@ def register():
     
     db.session.add(new_user)
     db.session.commit()
+    # Send a welcome email with the account number
+    msg = Message(
+        "Welcome to Ultra",
+        recipients=[email]
+    )
+    msg.body = f"Dear {username},\n\nWelcome to Ultra Account!\n\nYour account number is: {new_user.account_number}\n\nThank you for joining us."
+
+    mail.send(msg)
     
     return jsonify({"message": "User registered successfully", "account_number": new_user.account_number}), 201
 
