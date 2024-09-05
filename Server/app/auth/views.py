@@ -109,6 +109,7 @@ def credit_user():
 
     data = request.get_json()
     username = data.get('username')
+    account_number = data.get('account_number')
     amount = data.get('amount')
     depositor_name = data.get('depositor_name')
 
