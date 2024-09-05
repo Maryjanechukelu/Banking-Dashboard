@@ -1,10 +1,11 @@
 "use client"
 import React, { useEffect, useState, useRef } from "react"
-import HeaderBox from '@/components/HeaderBox'
-import RightSidebar from "./../RightSidebar";
-import TotalBalanceBox from '@/components/TotalBalanceBox';
-import { toast } from "react-toastify"
-
+import HeaderBox from "@/components/HeaderBox"
+import RightSidebar from "./../RightSidebar"
+import Notification from "./../Notification/page"
+import TotalBalanceBox from "@/components/TotalBalanceBox"
+import { toast, ToastContainer } from "react-toastify" // Import ToastContainer to display toasts
+import "react-toastify/dist/ReactToastify.css"
 
 interface Account {
   email: string
@@ -37,6 +38,7 @@ const Home: React.FC = () => {
   const [accounts, setAccounts] = useState<Account[]>([])
   const [user, setUser] = useState<User>()
   const hasFetchedData = useRef(false)
+  const toastShown = useRef(false) // Ref to track if toast has been shown
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -85,7 +87,11 @@ const Home: React.FC = () => {
           setUser(userData)
         }
 
-        toast.success("Successful")
+        // Show toast only once on the first successful fetch
+        if (!toastShown.current) {
+          toast.success("Welcome to the Dashboard!") // Message tailored to the dashboard
+          toastShown.current = true // Mark toast as shown
+        }
       } catch (error) {
         toast.error(
           `Error fetching account details: ${(error as Error).message}`
@@ -101,6 +107,7 @@ const Home: React.FC = () => {
 
   return (
     <section className="home">
+      <ToastContainer /> {/* Include ToastContainer to render toasts */}
       <div className="home-content">
         <header className="home-header">
           <HeaderBox
@@ -111,9 +118,9 @@ const Home: React.FC = () => {
           />
           <TotalBalanceBox />
         </header>
+        <Notification />
       </div>
-
-      <RightSidebar user={user} />
+      <RightSidebar />
     </section>
   )
 }

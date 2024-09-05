@@ -15,7 +15,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 
 
 export const metadata: Metadata = {
-  title: "Ultra",
+  title: "SwissUltra",
   description: "Banking with Flex.",
   icons: {
     icon: "/logo.svg",

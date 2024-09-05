@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import HeaderBox from "@/components/HeaderBox"
 import RightSidebar from "@/components/RightSidebar"
+import Notification from "@/components/Notification"
 import TotalBalanceBox from "@/components/TotalBalanceBox"
 import { toast } from "react-toastify"
 
@@ -110,9 +111,10 @@ const Home: React.FC = () => {
           />
           <TotalBalanceBox />
         </header>
+         <Notification />
       </div>
 
-      <RightSidebar user={user} />
+      <RightSidebar />
     </section>
   )
 }

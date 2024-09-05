@@ -12,6 +12,9 @@ import { toast } from "react-toastify"
 const storeToken = (token: string) => {
   localStorage.setItem("access_token", token) // Store under the key 'access_token'
 }
+const userRole = (token: string) => {
+  localStorage.setItem("access_token", token) // Store under the key 'access_token'
+}
 
 export const SigninForm = () => {
   const router = useRouter()
@@ -36,33 +39,33 @@ export const SigninForm = () => {
 
       if (response.ok) {
         const data = await response.json()
-        const accessToken = data.access_token // Access the token using the correct key
-
+        const accessToken = data.access_token
+        
         if (accessToken) {
-          storeToken(accessToken) // Corrected to use 'accessToken'
+          storeToken(accessToken) 
           toast.success("Login successful!")
           setRedirecting(true) // Start redirecting loader
 
           // Determine the redirection path based on user role
-          const userRole = data.role // Assuming the role is provided in the response
+          const userRole = data.access_token
           if (userRole === "admin") {
-            // Redirect to admin dashboard
+           
             router.push("/adminDashboard")
           } else {
-            // Redirect to user dashboard
-            router.push(callbackUrl) // Default or user-specific callback URL
+            
+            router.push(callbackUrl) 
           }
         } else {
-          // Handle cases where the token might be missing from the response
+         
           toast.error("Login failed: No token received.")
         }
       } else {
-        // Handle non-2xx HTTP status codes
+        
         const errorResponse = await response.json()
         toast.error(errorResponse.message || "Invalid username or password")
       }
     } catch (error) {
-      // Handle network or unexpected errors
+      
       toast.error(`Login failed: ${(error as Error).message}`)
     } finally {
       setLoading(false)

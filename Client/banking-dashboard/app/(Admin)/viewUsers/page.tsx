@@ -5,6 +5,14 @@ import { Loader } from "lucide-react"
 import BackButton from "@/components/backButton"
 import PostsPagination from "@/components/Pagination" // Import your pagination component
 
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
 interface User {
   id: number
   username: string
@@ -25,12 +33,17 @@ const ViewUsersPage: React.FC = () => {
     const fetchUsers = async (page: number) => {
       setLoading(true)
       try {
+         const accessToken = getToken()
+      if (!accessToken) {
+        throw new Error("No access token available. Please log in.")
+      }
         const response = await fetch(
           `http://127.0.0.1:5000/auth/admin/users?page=${page}`, // Adjust API call for pagination
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
             },
           }
         )

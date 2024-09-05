@@ -24,61 +24,68 @@ const clearToken = () => {
   localStorage.removeItem("access_token");
 };
 
-const Footer = ({ user, type = 'desktop' }: FooterProps) => {
-  const router = useRouter();
+const Footer: React.FC = () => {
+  const router = useRouter()
 
   const handleLogout = async () => {
     try {
-      const accessToken = getToken();
+      const accessToken = getToken()
       if (!accessToken) {
-        toast.error("No access token found, please log in.");
-        router.push("/sign-in");
-        return;
+        toast.error("No access token found, please log in.")
+        router.push("/sign-in")
+        return
       }
 
       // Make the logout request
       const response = await fetch("http://127.0.0.1:5000/auth/logout", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${accessToken}`, // Add the actual token
+          Authorization: `Bearer ${accessToken}`, // Add the actual token
           "Content-Type": "application/json",
         },
-      });
+      })
 
       // Handle the response
       if (response.ok) {
-        toast.success("Logout successful!");
-        clearToken(); // Clear token from local storage
-        router.push("/sign-in"); // Redirect after successful logout
+        toast.success("Logout successful!")
+        clearToken() // Clear token from local storage
+        router.push("/sign-in") // Redirect after successful logout
       } else {
-        const errorData = await response.json();
-        toast.error(`Logout failed: ${errorData.message || "Unknown error"}`);
+        const errorData = await response.json()
+        toast.error(`Logout failed: ${errorData.message || "Unknown error"}`)
       }
     } catch (error) {
-      toast.error(`Logout failed: ${(error as Error).message}`);
+      toast.error(`Logout failed: ${(error as Error).message}`)
     }
-  };
+  }
 
   return (
     <footer className="footer flex items-center justify-between p-4 bg-gray-100 shadow">
-      <div className={type === "mobile" ? "footer_name-mobile" : "footer_name"}>
-        <p className="text-xl font-bold text-gray-700">{user?.username}</p>
+      <div className= "footer_name-mobile footer_name">
+        <p className="text-xl font-bold text-gray-700">USER</p>
       </div>
-
-      <div className={type === "mobile" ? "footer_email-mobile" : "footer_email"}>
+{/* 
+      <div
+        className= "footer_email-mobile footer_email"
+      >
         <h1 className="text-sm truncate text-gray-700 font-semibold">
-          {user?.username}
+        
         </h1>
         <p className="text-sm truncate font-normal text-gray-600">
-          {user?.email}
+          
         </p>
-      </div>
+      </div> */}
 
       <div className="footer_image cursor-pointer" onClick={handleLogout}>
-        <Image src="/icons/power.svg" width={24} height={24} alt="logout icon" />
+        <Image
+          src="/icons/power.svg"
+          width={24}
+          height={24}
+          alt="logout icon"
+        />
       </div>
     </footer>
-  );
-};
+  )
+}
 
 export default Footer;

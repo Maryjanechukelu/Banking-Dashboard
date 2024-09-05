@@ -8,36 +8,60 @@ import { Form } from "@/components/ui/form"
 import { Loader } from "lucide-react";
 import BackButton from '@/components/backButton';
 
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
+
 const CreditUsersPage: React.FC = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
+  const [username, setUsername] = useState<string>("")
+   const [depositor, setDepositor] = useState<string>("")
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/credit-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ accountNumber, amount }), // Correct payload format
-      })
+      const accessToken = getToken()
+      if (!accessToken) {
+        throw new Error("No access token available. Please log in.")
+      }
+      const response = await fetch(
+        "http://127.0.0.1:5000/auth/admin/credit_user",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ username, amount, accountNumber, depositor }),
+        }
+      )
 
       if (!response.ok) {
-        throw new Error("Failed to credit user. Please try again.");
+        throw new Error("Failed to credit user. Please try again.")
       }
+        const data = await response.json()
 
-      toast.success("User credited successfully");
+        // Store the token if provided
+        if (data[0]?.data) {
+          storeToken(data[0].data)
+        }
+      toast.success("Account balance credited successfully")
     } catch (error) {
-      toast.error(`Error crediting user: ${(error as Error).message}`);
+      toast.error(`Error crediting user: ${(error as Error).message}`)
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false)
     }
-  };
-
+  }
+  
   return (
     <>
       <div className="flex justify-between p-4">
@@ -55,6 +79,18 @@ const CreditUsersPage: React.FC = () => {
           onSubmit={handleSubmit}
           className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4"
         >
+          <div>
+          <Label className="block text-sm font-medium text-gray-700">
+            Username
+          </Label>
+          <Input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
           <div>
             <Label className="block text-sm font-medium text-gray-700">
               Account Number
@@ -79,6 +115,18 @@ const CreditUsersPage: React.FC = () => {
               required
             />
           </div>
+          <div>
+          <Label className="block text-sm font-medium text-gray-700">
+            {"Depositor's Name"}
+          </Label>
+          <Input
+            type="text"
+            value={depositor}
+            onChange={(e) => setDepositor(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
           <Button
             type="submit"
             className="px-4 py-2 bg-indigo-900 text-white rounded-md w-full sm:w-auto"
