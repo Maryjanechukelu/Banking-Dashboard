@@ -51,7 +51,7 @@ const NotificationsPage: React.FC = () => {
          }
 
         setNotifications(data)
-        toast.success("Successful")
+        // toast.success("Successful")
       } catch (error) {
         toast.error(`Error fetching notifications: ${(error as Error).message}`)
       } finally {

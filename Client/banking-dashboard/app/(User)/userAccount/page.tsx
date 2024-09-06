@@ -56,7 +56,7 @@ const UserAccountsPage: React.FC = () => {
           storeToken(data.access_token)
         }
         setAccountDetails(data)
-        toast.success("Account details fetched successfully")
+        // toast.success("Account details fetched successfully")
       } catch (error) {
         toast.error(
           `Error fetching account details: ${(error as Error).message}`

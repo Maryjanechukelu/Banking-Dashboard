@@ -60,7 +60,7 @@ const TotalBalanceBox: React.FC = () => {
         }
 
         setAccount(data);
-        toast.success("Account details fetched successfully");
+        // toast.success("Account details fetched successfully");
       } catch (error) {
         setError((error as Error).message);
         toast.error(`Error fetching account details: ${(error as Error).message}`);
