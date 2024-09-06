@@ -50,13 +50,16 @@ const Home: React.FC = () => {
           throw new Error("No access token available. Please log in.")
         }
 
-        const response = await fetch("http://127.0.0.1:5000/auth/account", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        const response = await fetch(
+          "https://swiss-ultra-api-2.onrender.com/auth/account",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
 
         if (!response.ok) {
           if (response.status === 401) {

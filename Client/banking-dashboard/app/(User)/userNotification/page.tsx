@@ -29,7 +29,7 @@ const NotificationsPage: React.FC = () => {
         const accessToken = getToken()
 
         const response = await fetch(
-          "http://127.0.0.1:5000/auth/notifications",
+          "https://swiss-ultra-api-2.onrender.com/auth/notifications",
           {
             method: "GET",
             headers: {

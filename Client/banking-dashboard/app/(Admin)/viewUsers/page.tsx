@@ -38,7 +38,7 @@ const ViewUsersPage: React.FC = () => {
         throw new Error("No access token available. Please log in.")
       }
         const response = await fetch(
-          `http://127.0.0.1:5000/auth/admin/users?page=${page}`, // Adjust API call for pagination
+          `https://swiss-ultra-api-2.onrender.com/auth/admin/users?page=${page}`, // Adjust API call for pagination
           {
             method: "GET",
             headers: {

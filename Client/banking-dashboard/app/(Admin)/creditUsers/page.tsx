@@ -34,7 +34,7 @@ const CreditUsersPage: React.FC = () => {
         throw new Error("No access token available. Please log in.")
       }
       const response = await fetch(
-        "http://127.0.0.1:5000/auth/admin/credit_user",
+        "https://swiss-ultra-api-2.onrender.com/admin/credit_user",
         {
           method: "PUT",
           headers: {
