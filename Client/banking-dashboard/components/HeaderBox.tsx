@@ -22,12 +22,14 @@ const HeaderBox = ({
         {type === "greeting" && user ? (
           <span className="text-indigo-900">&nbsp;{user}</span>
         ) : (
-          type === "greeting" && <span className="text-indigo-900">&nbsp;Guest</span> // Fallback for missing user
+          type === "greeting" && (
+            <span className="text-indigo-900">&nbsp;{user}</span>
+          ) // Fallback for missing user
         )}
       </h1>
       <p className="header-box-subtext">{subtext}</p>
     </div>
-  );
+  )
 };
 
 export default HeaderBox;

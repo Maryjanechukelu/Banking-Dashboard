@@ -2,6 +2,7 @@
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import useAuth from "@/useAuth"
 
 interface AccountDetails {
   username: string
@@ -20,6 +21,7 @@ const getToken = () => {
 }
 
 const UserAccountsPage: React.FC = () => {
+  useAuth()
   const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(
     null
   )

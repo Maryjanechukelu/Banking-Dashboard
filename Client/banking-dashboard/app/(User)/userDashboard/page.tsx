@@ -5,6 +5,7 @@ import RightSidebar from "@/components/RightSidebar"
 import Notification from "@/components/Notification"
 import TotalBalanceBox from "@/components/TotalBalanceBox"
 import { toast } from "react-toastify"
+import useAuth from "@/useAuth"
 
 interface Account {
   email: string
@@ -34,9 +35,11 @@ const getToken = () => {
 }
 
 const Home: React.FC = () => {
+  useAuth()
   const [accounts, setAccounts] = useState<Account[]>([])
   const [user, setUser] = useState<User>() 
   const hasFetchedData = useRef(false)
+ 
 
   useEffect(() => {
     const fetchAccountDetails = async () => {

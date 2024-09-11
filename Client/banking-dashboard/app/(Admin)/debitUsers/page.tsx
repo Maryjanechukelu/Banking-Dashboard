@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader } from "lucide-react";
 import BackButton from '@/components/backButton';
-
+import useAuth from "@/useAuth"
 
 const storeToken = (accessToken: string) => {
   localStorage.setItem("access_token", accessToken)
@@ -19,6 +19,7 @@ const getToken = () => {
 }
 
 const DebitUserPage: React.FC = () => {
+  useAuth()
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [username, setUsername] = useState<string>("")

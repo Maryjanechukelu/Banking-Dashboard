@@ -37,13 +37,16 @@ const Footer: React.FC = () => {
       }
 
       // Make the logout request
-      const response = await fetch("http://127.0.0.1:5000/auth/logout", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`, // Add the actual token
-          "Content-Type": "application/json",
-        },
-      })
+      const response = await fetch(
+        "https://swiss-ultra-api-2.onrender.com/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Add the actual token
+            "Content-Type": "application/json",
+          },
+        }
+      )
 
       // Handle the response
       if (response.ok) {
@@ -61,7 +64,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="footer flex items-center justify-between p-4 bg-gray-100 shadow">
-      <div className= "footer_name-mobile footer_name">
+      <div className= "">
         <p className="text-xl font-bold text-gray-700">USER</p>
       </div>
 {/* 

@@ -2,7 +2,8 @@
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import BackButton from "@/components/backButton"
+import { Loader } from "lucide-react"
+import useAuth from "@/useAuth"
 
 interface Notification {
   message: string
@@ -19,6 +20,7 @@ const getToken = () => {
 }
 
 const NotificationsPage: React.FC = () => {
+  useAuth()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -51,7 +53,7 @@ const NotificationsPage: React.FC = () => {
         }
 
         setNotifications(data)
-        toast.success("Successful")
+        // toast.success("Successful")
       } catch (error) {
         toast.error(`Error fetching notifications: ${(error as Error).message}`)
       } finally {
@@ -64,25 +66,9 @@ const NotificationsPage: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between p-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-6  text-indigo-900">
-            Notification
-          </h1>
-        </div>
-        <div>
-          <BackButton text="Go Back" link="/Settings" />
-        </div>
-      </div>
       {loading ? (
         <div className="flex justify-center items-center h-full">
-          <Image
-            src="/logo.svg" // Replace with your logo path
-            alt="Logo"
-            width={20}
-            height={20}
-            className="w-24 h-24 animate-pulse"
-          />
+           <Loader className="animate-spin" />
         </div>
       ) : (
         <div className="space-y-4">

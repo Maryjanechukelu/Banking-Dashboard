@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { Loader } from "lucide-react"
 import BackButton from "@/components/backButton"
-import PostsPagination from "@/components/Pagination" // Import your pagination component
+import PostsPagination from "@/components/Pagination" 
+import useAuth from "@/useAuth"
 
 const storeToken = (accessToken: string) => {
   localStorage.setItem("access_token", accessToken)
@@ -23,6 +24,7 @@ interface User {
 }
 
 const ViewUsersPage: React.FC = () => {
+  useAuth()
   const [users, setUsers] = useState<User[]>([]) // State to hold user data
   const [loading, setLoading] = useState<boolean>(true) // State to handle loading
   const [currentPage, setCurrentPage] = useState<number>(1) // State to track current page

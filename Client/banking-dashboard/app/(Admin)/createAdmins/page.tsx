@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader } from "lucide-react"
 import BackButton from '@/components/backButton';
+import useAuth from "@/useAuth"
 
 interface Account {
   email: string
@@ -35,6 +36,7 @@ const getToken = () => {
 }
 
 const CreateAdminAccountPage: React.FC = () => {
+  useAuth()
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

@@ -2,10 +2,11 @@
 import React, { useEffect, useState, useRef } from "react"
 import HeaderBox from "@/components/HeaderBox"
 import RightSidebar from "./../RightSidebar"
-import Notification from "./../Notification/page"
+import Notification from "@/components/Notification"
 import TotalBalanceBox from "@/components/TotalBalanceBox"
-import { toast, ToastContainer } from "react-toastify" // Import ToastContainer to display toasts
+import { toast } from "react-toastify" 
 import "react-toastify/dist/ReactToastify.css"
+import useAuth from "@/useAuth"
 
 interface Account {
   email: string
@@ -35,6 +36,7 @@ const getToken = () => {
 }
 
 const Home: React.FC = () => {
+  useAuth()
   const [accounts, setAccounts] = useState<Account[]>([])
   const [user, setUser] = useState<User>()
   const hasFetchedData = useRef(false)
@@ -109,8 +111,7 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <section className="home">
-      <ToastContainer /> {/* Include ToastContainer to render toasts */}
+    <section className="home"> 
       <div className="home-content">
         <header className="home-header">
           <HeaderBox
