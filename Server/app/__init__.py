@@ -4,14 +4,14 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from flask_mail import Mail
+#from flask_mail import Mail
 import datetime
 
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
 jwt = JWTManager()
-mail = Mail()  
+#mail = Mail()  
 blacklist = set()
 
 def create_app():
@@ -31,7 +31,7 @@ def create_app():
     migrate.init_app(app, db)
     bcrypt.init_app(app)
     jwt.init_app(app)
-    mail.init_app(app)  
+    #mail.init_app(app)  
 
     # Register blueprints
     from app.auth.views import auth_blueprint
