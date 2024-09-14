@@ -18,12 +18,12 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
     #mail configuration
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = 'kevinejikez@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'Littleangel@08063085647'
-    app.config['MAIL_DEFAULT_SENDER'] = 'kevinejikez@gmail.com'
+    #app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    #app.config['MAIL_PORT'] = 587
+    #app.config['MAIL_USE_TLS'] = True
+    #app.config['MAIL_USERNAME'] = 'kevinejikez@gmail.com'
+    #app.config['MAIL_PASSWORD'] = 'Littleangel@08063085647'
+    #app.config['MAIL_DEFAULT_SENDER'] = 'kevinejikez@gmail.com'
 
 
     # Initialize extensions
