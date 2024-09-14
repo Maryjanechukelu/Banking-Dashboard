@@ -2,8 +2,10 @@
 import React, { useEffect, useState, useRef } from "react"
 import HeaderBox from "@/components/HeaderBox"
 import RightSidebar from "@/components/RightSidebar"
+import Notification from "@/components/Notification"
 import TotalBalanceBox from "@/components/TotalBalanceBox"
 import { toast } from "react-toastify"
+import useAuth from "@/useAuth"
 
 interface Account {
   email: string
@@ -33,9 +35,11 @@ const getToken = () => {
 }
 
 const Home: React.FC = () => {
+  useAuth()
   const [accounts, setAccounts] = useState<Account[]>([])
   const [user, setUser] = useState<User>() 
   const hasFetchedData = useRef(false)
+ 
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -47,7 +51,7 @@ const Home: React.FC = () => {
           throw new Error("No access token available. Please log in.")
         }
 
-        const response = await fetch("http://127.0.0.1:5000/auth/account", {
+        const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -110,9 +114,10 @@ const Home: React.FC = () => {
           />
           <TotalBalanceBox />
         </header>
+         <Notification />
       </div>
 
-      <RightSidebar user={user} />
+      <RightSidebar />
     </section>
   )
 }

@@ -2,6 +2,7 @@
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import useAuth from "@/useAuth"
 
 interface AccountDetails {
   username: string
@@ -20,6 +21,7 @@ const getToken = () => {
 }
 
 const UserAccountsPage: React.FC = () => {
+  useAuth()
   const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(
     null
   )
@@ -34,7 +36,7 @@ const UserAccountsPage: React.FC = () => {
           throw new Error("No access token available. Please log in.")
         }
 
-        const response = await fetch("http://127.0.0.1:5000/auth/account", {
+        const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +58,7 @@ const UserAccountsPage: React.FC = () => {
           storeToken(data.access_token)
         }
         setAccountDetails(data)
-        toast.success("Account details fetched successfully")
+        // toast.success("Account details fetched successfully")
       } catch (error) {
         toast.error(
           `Error fetching account details: ${(error as Error).message}`

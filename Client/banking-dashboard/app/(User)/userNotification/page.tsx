@@ -3,6 +3,7 @@ import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import BackButton from "@/components/backButton"
+import useAuth from "@/useAuth"
 
 interface Notification {
   message: string
@@ -19,6 +20,7 @@ const getToken = () => {
 }
 
 const NotificationsPage: React.FC = () => {
+  useAuth()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -29,7 +31,7 @@ const NotificationsPage: React.FC = () => {
         const accessToken = getToken()
 
         const response = await fetch(
-          "http://127.0.0.1:5000/auth/notifications",
+          "https://swiss-ultra-api-2.onrender.com/auth/notifications",
           {
             method: "GET",
             headers: {
@@ -51,7 +53,7 @@ const NotificationsPage: React.FC = () => {
          }
 
         setNotifications(data)
-        toast.success("Successful")
+        // toast.success("Successful")
       } catch (error) {
         toast.error(`Error fetching notifications: ${(error as Error).message}`)
       } finally {

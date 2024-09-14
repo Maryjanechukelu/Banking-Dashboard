@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader } from "lucide-react"
 import BackButton from '@/components/backButton';
+import useAuth from "@/useAuth"
 
 interface Account {
   email: string
@@ -35,6 +36,7 @@ const getToken = () => {
 }
 
 const CreateAdminAccountPage: React.FC = () => {
+  useAuth()
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -49,7 +51,7 @@ const CreateAdminAccountPage: React.FC = () => {
       if (!accessToken) {
         throw new Error("No access token available. Please log in.")
       }
-      const response = await fetch("http://127.0.0.1:5000/auth/admin/register", {
+      const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/admin/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

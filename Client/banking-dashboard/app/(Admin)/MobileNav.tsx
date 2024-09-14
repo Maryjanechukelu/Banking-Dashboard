@@ -31,7 +31,7 @@ declare type User = {
  
 };
 
-const MobileNav = ({ user }: MobileNavProps) => {
+const MobileNav: React.FC = () => {
   const pathname = usePathname()
 
   return (
@@ -58,7 +58,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
               alt="Ultra logo"
             />
             <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-              Ultra
+              SwissUltra
             </h1>
           </Link>
           <div className="mobilenav-sheet">
@@ -102,7 +102,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
               </nav>
             </SheetClose>
 
-            <Footer user={user} type="mobile" />
+            <Footer />
           </div>
         </SheetContent>
       </Sheet>

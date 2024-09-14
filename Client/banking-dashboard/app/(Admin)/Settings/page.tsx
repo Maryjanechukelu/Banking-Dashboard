@@ -6,11 +6,13 @@ import {
   FaUserPlus,
   FaMoneyBillWave,
 } from "react-icons/fa"
+import useAuth from "@/useAuth"
 
 const Settings: React.FC = () => {
+  useAuth()
   return (
     <div className="bg-white p-8 rounded-lg w-full h-full shadow-md">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Settings</h2>
+      <h2 className="text-2xl font-bold mb-6 text-indigo-900">Settings</h2>
       <ul className="space-y-4">
         <li>
           <Link href="/viewUsers">
@@ -19,7 +21,7 @@ const Settings: React.FC = () => {
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
               title="View and manage all users in the system"
             >
-              <FaUsers className="text-indigo-500 mr-3" />
+              <FaUsers className="text-indigo-900 mr-3" />
               <span className="text-lg font-semibold text-gray-800">
                 View Users
               </span>
@@ -33,7 +35,7 @@ const Settings: React.FC = () => {
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
               title="Credit users' accounts with funds"
             >
-              <FaMoneyBillWave className="text-indigo-500 mr-3" />
+              <FaMoneyBillWave className="text-indigo-900 mr-3" />
               <span className="text-lg font-semibold text-gray-800">
                 Credit Users
               </span>
@@ -47,7 +49,7 @@ const Settings: React.FC = () => {
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
               title="Debit users' accounts"
             >
-              <FaCreditCard className="text-indigo-500 mr-3" />
+              <FaCreditCard className="text-indigo-900 mr-3" />
               <span className="text-lg font-semibold text-gray-800">
                 Debit User
               </span>
@@ -61,7 +63,7 @@ const Settings: React.FC = () => {
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
               title="Edit user data"
             >
-              <FaUserEdit className="text-indigo-500 mr-3" />
+              <FaUserEdit className="text-indigo-900 mr-3" />
               <span className="text-lg font-semibold text-gray-800">
                 Edit User Data
               </span>
@@ -75,7 +77,7 @@ const Settings: React.FC = () => {
               transition duration-200 ease-in-out shadow-sm hover:shadow-lg transform hover:-translate-y-1"
               title="Create new admin accounts"
             >
-              <FaUserPlus className="text-indigo-500 mr-3" />
+              <FaUserPlus className="text-indigo-900 mr-3" />
               <span className="text-lg font-semibold text-gray-800">
                 Create Admin Accounts
               </span>

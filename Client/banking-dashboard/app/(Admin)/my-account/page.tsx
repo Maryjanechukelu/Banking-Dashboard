@@ -2,6 +2,7 @@
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import useAuth from "@/useAuth"
 
 interface AccountDetails {
   username: string
@@ -20,6 +21,7 @@ const getToken = () => {
 }
 
 const UserAccountsPage: React.FC = () => {
+  useAuth()
   const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(
     null
   )
@@ -34,7 +36,7 @@ const UserAccountsPage: React.FC = () => {
           throw new Error("No access token available. Please log in.")
         }
 
-        const response = await fetch("http://127.0.0.1:5000/auth/account", {
+        const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -82,8 +84,8 @@ const UserAccountsPage: React.FC = () => {
           />
         </div>
       ) : accountDetails ? (
-        <div className="space-y-6 max-w-4xl mx-auto">
-          <div className="p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+        <div className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4">
+          <div className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">
               Hello, {accountDetails.username}
             </h1>

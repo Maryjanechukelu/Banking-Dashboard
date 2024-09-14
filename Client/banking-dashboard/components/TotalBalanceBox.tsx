@@ -37,7 +37,7 @@ const TotalBalanceBox: React.FC = () => {
           throw new Error("No access token available. Please log in.");
         }
 
-        const response = await fetch("http://127.0.0.1:5000/auth/account", {
+        const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/account", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const TotalBalanceBox: React.FC = () => {
         }
 
         setAccount(data);
-        toast.success("Account details fetched successfully");
+        // toast.success("Account details fetched successfully");
       } catch (error) {
         setError((error as Error).message);
         toast.error(`Error fetching account details: ${(error as Error).message}`);
@@ -101,25 +101,23 @@ const TotalBalanceBox: React.FC = () => {
       </div>
 
       <div className="flex flex-col gap-6">
-        <h2 className="header-2">
-      Username: {account.username}
-        </h2>
-          <h1 className="header-2">
-     Account Number: {account.account_number}
-        </h1>
+        <h2 className="header-2">Username: {account.username}</h2>
+        <h1 className="header-2">Account Number: {account.account_number}</h1>
         <div className="flex flex-col gap-2">
           <h1 className="total-balance-label">
-        Last Credited Amount: {account.last_credited_amount}
+            Last Credited Amount: {account.last_credited_amount}
+          </h1>
+          <h1 className="total-balance-label">
+            Total Balance: {account.account_balance}
           </h1>
 
-          <div className="total-balance-amount flex-center gap-2">
-            <AnimatedCounter account={account} />
-          </div>
+          {/* <div className="total-balance-amount flex-center gap-2">
+            <AnimatedCounter account={account.account_balance} />
+          </div> */}
         </div>
       </div>
     </section>
- 
-  );
+  )
 };
 
 export default TotalBalanceBox;

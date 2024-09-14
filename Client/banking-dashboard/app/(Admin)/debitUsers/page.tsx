@@ -7,10 +7,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader } from "lucide-react";
 import BackButton from '@/components/backButton';
+import useAuth from "@/useAuth"
+
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
 
 const DebitUserPage: React.FC = () => {
+  useAuth()
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
+  const [username, setUsername] = useState<string>("")
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,25 +30,38 @@ const DebitUserPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/debit-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-       },
-        body: JSON.stringify({ accountNumber, amount }),
-    });
+      const accessToken = getToken()
+      if (!accessToken) {
+        throw new Error("No access token available. Please log in.")
+      }
+      const response = await fetch(
+        "https://swiss-ultra-api-2.onrender.com/auth/admin/debit_user",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ username, amount, accountNumber }),
+        }
+      )
 
       if (!response.ok) {
-        throw new Error("Failed to debit user. Please try again.");
+        throw new Error("Failed to debit user. Please try again.")
       }
+        const data = await response.json()
 
-      toast.success("User debited successfully");
+        // Store the token if provided
+        if (data[0]?.data) {
+          storeToken(data[0].data)
+        }
+      toast.success("Account balance debited successfully")
     } catch (error) {
-      toast.error(`Error debiting user: ${(error as Error).message}`);
+      toast.error(`Error debiting user: ${(error as Error).message}`)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <>
@@ -52,6 +77,18 @@ const DebitUserPage: React.FC = () => {
       </div>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4">
         <div>
+          <Label className="block text-sm font-medium text-gray-700">
+            Username
+          </Label>
+          <Input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+         <div>
           <Label className="block text-sm font-medium text-gray-700">
             Account Number
           </Label>

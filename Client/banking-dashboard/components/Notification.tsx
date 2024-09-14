@@ -1,36 +1,59 @@
 "use client"
-
+import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { Loader } from "lucide-react"
+import useAuth from "@/useAuth"
 
 interface Notification {
   message: string
   timestamp: string
 }
 
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
+
 const NotificationsPage: React.FC = () => {
+  useAuth()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      setLoading(true)
       try {
-        const response = await fetch("/api/notifications", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer your_jwt_token`, // Replace with actual token handling
-          },
-        })
+        const accessToken = getToken()
+
+        const response = await fetch(
+          "https://swiss-ultra-api-2.onrender.com/auth/notifications",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`, // Use the retrieved token
+            },
+          }
+        )
 
         if (!response.ok) {
           throw new Error("Failed to fetch notifications. Please try again.")
         }
 
         const data = await response.json()
-        setNotifications(data.notifications)
-        toast.success("Notifications fetched successfully")
+
+        // If a new token is provided in the response, store it
+        if (data.access_token) {
+          storeToken(data.access_token)
+        }
+
+        setNotifications(data)
+        // toast.success("Successful")
       } catch (error) {
         toast.error(`Error fetching notifications: ${(error as Error).message}`)
       } finally {
@@ -43,11 +66,9 @@ const NotificationsPage: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6">Notifications</h1>
       {loading ? (
         <div className="flex justify-center items-center h-full">
-          <Loader className="animate-spin text-indigo-900" size={40} />
-          <p className="ml-4 text-lg text-indigo-900">Loading...</p>
+           <Loader className="animate-spin" />
         </div>
       ) : (
         <div className="space-y-4">

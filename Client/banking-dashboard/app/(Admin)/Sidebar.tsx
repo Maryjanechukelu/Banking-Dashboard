@@ -8,17 +8,8 @@ import { usePathname } from 'next/navigation'
 import Footer from '@/components/Footer'
 
 
-declare interface SiderbarProps {
-  user: User;
-}
 
-declare type User = {
-  username: string;
-  email: string;
-  password: string;
-};
-
-const Sidebar = ({ user }: SiderbarProps) => {
+const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   return (
@@ -32,7 +23,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             alt="Horizon logo"
             className="size-[24px] max-xl:size-14"
           />
-          <h1 className="sidebar-logo">Ultra</h1>
+          <h1 className="sidebar-logo">SwissUltra</h1>
         </Link>
 
         {adminsidebarLinks.map((item) => {
@@ -60,7 +51,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
         })}
       </nav>
 
-      <Footer user={user} />
+      <Footer />
     </section>
   )
 }

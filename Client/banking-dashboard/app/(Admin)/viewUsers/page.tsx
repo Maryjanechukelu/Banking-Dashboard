@@ -3,8 +3,17 @@ import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { Loader } from "lucide-react"
 import BackButton from "@/components/backButton"
-import PostsPagination from "@/components/Pagination" // Import your pagination component
+import PostsPagination from "@/components/Pagination" 
+import useAuth from "@/useAuth"
 
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
 interface User {
   id: number
   username: string
@@ -15,6 +24,7 @@ interface User {
 }
 
 const ViewUsersPage: React.FC = () => {
+  useAuth()
   const [users, setUsers] = useState<User[]>([]) // State to hold user data
   const [loading, setLoading] = useState<boolean>(true) // State to handle loading
   const [currentPage, setCurrentPage] = useState<number>(1) // State to track current page
@@ -25,12 +35,17 @@ const ViewUsersPage: React.FC = () => {
     const fetchUsers = async (page: number) => {
       setLoading(true)
       try {
+         const accessToken = getToken()
+      if (!accessToken) {
+        throw new Error("No access token available. Please log in.")
+      }
         const response = await fetch(
-          `http://127.0.0.1:5000/auth/admin/users?page=${page}`, // Adjust API call for pagination
+          `https://swiss-ultra-api-2.onrender.com/auth/admin/users?page=${page}`, // Adjust API call for pagination
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
             },
           }
         )

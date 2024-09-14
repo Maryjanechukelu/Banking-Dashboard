@@ -8,18 +8,7 @@ import { usePathname } from 'next/navigation'
 import Footer from './Footer'
 
 
-declare interface SiderbarProps {
-  user: User;
-}
-
-declare type User = {
-  username: string;
-  email: string;
-  password: string;
-};
-
-
-const Sidebar = ({ user }: SiderbarProps) => {
+const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   return (
@@ -61,7 +50,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
         })}
       </nav>
 
-      <Footer user={user} />
+      <Footer  />
     </section>
   )
 }
