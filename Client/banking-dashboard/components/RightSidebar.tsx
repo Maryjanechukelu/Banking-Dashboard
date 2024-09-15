@@ -48,7 +48,7 @@ const RightSidebar: React.FC = () => {
         <div className="flex w-full justify-between items-center mb-4">
           <h2 className="text-lg font-bold text-gray-800">My Account</h2>
           <Link
-            href="/adminDashboard"
+            href="/RightSidebar"
             className="flex items-center gap-2 text-indigo-600 hover:underline"
           >
             <Image src="/icons/plus.svg" width={20} height={20} alt="plus" />
