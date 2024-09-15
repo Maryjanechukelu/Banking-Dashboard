@@ -30,6 +30,7 @@
     "cookie": "^0.6.0",
     "date-fns": "^3.6.0",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.424.0",
     "next": "14.2.5",
     "next-auth": "^4.24.7",

@@ -19,7 +19,7 @@ const storeToken = (token: string) => {
 export const SigninForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl") || "/userDashboard" // Default to user dashboard
+  // const callbackUrl = searchParams.get("callbackUrl") || "/userDashboard" 
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -29,44 +29,45 @@ export const SigninForm = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      })
+      const response = await fetch(
+        "https://swiss-ultra-api-2.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      )
 
       if (response.ok) {
         const data = await response.json()
         const accessToken = data.access_token
-        
-        if (accessToken) {
-          storeToken(accessToken) 
-          toast.success("Login successful!")
-          setRedirecting(true) 
 
-          // Determine the redirection path based on user role
-          const userRole = data.is_admin
-          if (userRole === true) {
-           
-            router.push("/adminDashboard")
+        if (accessToken) {
+          storeToken(accessToken)
+          toast.success("Login successful!")
+          setRedirecting(true)
+          if (data.user && typeof data.user.is_admin !== "undefined") {
+            const isAdmin = data.user.is_admin
+
+            if (isAdmin === true) {
+              router.push("/adminDashboard")
+            } else {
+              router.push("/userDashboard")
+            }
           } else {
-            
-            router.push(callbackUrl) 
+            toast.error("Login failed: User data is not available.")
           }
         } else {
-         
           toast.error("Login failed: No token received.")
         }
       } else {
-        
-        const errorResponse = await response.json()
-        toast.error(errorResponse.message || "Invalid username or password")
+        toast.error("Login failed: Invalid credentials.")
       }
     } catch (error) {
-      
-      toast.error(`Login failed: ${(error as Error).message}`)
+      console.error("Login error:", error)
+      toast.error("An error occurred during login.")
     } finally {
       setLoading(false)
     }
