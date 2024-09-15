@@ -3,7 +3,7 @@ import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { Loader } from "lucide-react"
-import useAuth from "@/useAuth"
+import useAuth from "@/app/useAuth"
 
 interface Notification {
   message: string
@@ -68,7 +68,7 @@ const NotificationsPage: React.FC = () => {
     <>
       {loading ? (
         <div className="flex justify-center items-center h-full">
-           <Loader className="animate-spin" />
+          <Loader className="animate-spin" />
         </div>
       ) : (
         <div className="space-y-4">

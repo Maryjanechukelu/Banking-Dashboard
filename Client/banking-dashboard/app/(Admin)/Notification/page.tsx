@@ -3,7 +3,7 @@ import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import BackButton from "@/components/backButton"
-import useAuth from "@/useAuth"
+import useAuth from "@/app/useAuth"
 
 interface Notification {
   message: string
@@ -48,9 +48,9 @@ const NotificationsPage: React.FC = () => {
         const data = await response.json()
 
         // If a new token is provided in the response, store it
-         if (data.access_token) {
-           storeToken(data.access_token)
-         }
+        if (data.access_token) {
+          storeToken(data.access_token)
+        }
 
         setNotifications(data)
         // toast.success("Successful")
@@ -66,14 +66,14 @@ const NotificationsPage: React.FC = () => {
 
   return (
     <>
-       <div className="flex justify-between p-4">
+      <div className="flex justify-between p-4">
         <div>
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6  text-indigo-900">
-        Notification
-      </h1>
-      </div>
-      <div>
-        <BackButton text='Go Back' link='/Settings' />
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6  text-indigo-900">
+            Notification
+          </h1>
+        </div>
+        <div>
+          <BackButton text="Go Back" link="/Settings" />
         </div>
       </div>
       {loading ? (

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { Loader } from "lucide-react"
 import BackButton from "@/components/backButton"
-import PostsPagination from "@/components/Pagination" 
-import useAuth from "@/useAuth"
+import PostsPagination from "@/components/Pagination"
+import useAuth from "@/app/useAuth"
 
 const storeToken = (accessToken: string) => {
   localStorage.setItem("access_token", accessToken)
@@ -35,10 +35,10 @@ const ViewUsersPage: React.FC = () => {
     const fetchUsers = async (page: number) => {
       setLoading(true)
       try {
-         const accessToken = getToken()
-      if (!accessToken) {
-        throw new Error("No access token available. Please log in.")
-      }
+        const accessToken = getToken()
+        if (!accessToken) {
+          throw new Error("No access token available. Please log in.")
+        }
         const response = await fetch(
           `https://swiss-ultra-api-2.onrender.com/auth/admin/users?page=${page}`, // Adjust API call for pagination
           {

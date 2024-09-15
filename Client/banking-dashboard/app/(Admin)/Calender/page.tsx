@@ -2,10 +2,8 @@
 
 import React, { useState } from "react"
 import { Calendar as CalendarUI } from "@/components/ui/calendar" // Importing with alias to avoid conflict
-import BackButton from '@/components/backButton';
-import useAuth from "@/useAuth"
-
-
+import BackButton from "@/components/backButton"
+import useAuth from "@/app/useAuth"
 
 const CalendarComponent: React.FC = () => {
   useAuth()
@@ -16,7 +14,7 @@ const CalendarComponent: React.FC = () => {
       <div className="flex justify-between p-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-6  text-indigo-900">
-           Select a Date
+            Select a Date
           </h1>
         </div>
         <div>
