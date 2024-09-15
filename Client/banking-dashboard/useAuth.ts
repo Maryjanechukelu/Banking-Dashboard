@@ -1,17 +1,27 @@
 "use client"
-import { useEffect } from 'react';
+
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const useAuth = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    setIsMounted(true); // Set mounted state when the component mounts
+  }, []);
 
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const token = localStorage.getItem('access_token');
     if (!token) {
-      router.replace('/sign-in');
+      // Redirect to login if no token is found
+      router.push('/sign-in');
     }
-  }, [router]);
+  }, [isMounted, router]);
+
+  return null;
 };
 
 export default useAuth;
