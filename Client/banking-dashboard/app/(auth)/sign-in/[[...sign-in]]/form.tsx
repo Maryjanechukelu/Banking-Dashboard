@@ -12,9 +12,9 @@ import { toast } from "react-toastify"
 const storeToken = (token: string) => {
   localStorage.setItem("access_token", token) // Store under the key 'access_token'
 }
-const userRole = (token: string) => {
-  localStorage.setItem("access_token", token) // Store under the key 'access_token'
-}
+//const userRole = (token: string) => {
+  //localStorage.setItem("access_token", token) // Store under the key 'access_token'
+//}
 
 export const SigninForm = () => {
   const router = useRouter()
@@ -47,8 +47,8 @@ export const SigninForm = () => {
           setRedirecting(true) // Start redirecting loader
 
           // Determine the redirection path based on user role
-          const userRole = data.access_token
-          if (userRole === "admin") {
+          const userRole = data.is_admin
+          if (userRole === true) {
            
             router.push("/adminDashboard")
           } else {
