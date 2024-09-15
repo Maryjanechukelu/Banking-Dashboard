@@ -52,7 +52,7 @@ const NotificationsPage: React.FC = () => {
           storeToken(data.access_token)
         }
 
-        setNotifications(data)
+        setNotifications(data.notifications || [])
         // toast.success("Successful")
       } catch (error) {
         toast.error(`Error fetching notifications: ${(error as Error).message}`)
