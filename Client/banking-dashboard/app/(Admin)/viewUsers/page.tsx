@@ -18,8 +18,8 @@ interface User {
   id: number
   username: string
   email: string
-  accountNumber: string
-  balance: number
+  account_number: number
+  account_balance: number
   last_credited_amount: number
 }
 
@@ -109,8 +109,8 @@ const ViewUsersPage: React.FC = () => {
                 <tr key={user.id} className="border-t">
                   <td className="py-2 px-4">{user.username}</td>
                   <td className="py-2 px-4">{user.email}</td>
-                  <td className="py-2 px-4">{user.accountNumber}</td>
-                  <td className="py-2 px-4">${user.balance}</td>
+                  <td className="py-2 px-4">{user.account_number}</td>
+                  <td className="py-2 px-4">${user.account_balance}</td>
                   <td className="py-2 px-4">${user.last_credited_amount}</td>
                 </tr>
               ))}
