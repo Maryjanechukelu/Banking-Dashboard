@@ -94,7 +94,7 @@ const Home: React.FC = () => {
 
         // Show toast only once on the first successful fetch
         if (!toastShown.current) {
-          toast.success("Welcome to the Dashboard!") // Message tailored to the dashboard
+          // toast.success("Welcome to the Dashboard!") // Message tailored to the dashboard
           toastShown.current = true // Mark toast as shown
         }
       } catch (error) {

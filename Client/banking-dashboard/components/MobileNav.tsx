@@ -44,7 +44,7 @@ const MobileNav: React.FC = () => {
               alt="Ultra logo"
             />
             <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">
-              Ultra
+              SwitzUltra
             </h1>
           </Link>
           <div className="mobilenav-sheet">
