@@ -43,7 +43,12 @@ const CreditUsersPage: React.FC = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ username, amount, accountNumber, depositor }),
+          body: JSON.stringify({
+            username,
+            account_number: accountNumber, 
+            amount: parseFloat(amount), 
+            depositor_name: depositor, 
+          }),
         }
       )
 
