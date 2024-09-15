@@ -40,12 +40,14 @@ const NotificationsPage: React.FC = () => {
             },
           }
         )
+         console.log("Response Status:", response.status)
 
         if (!response.ok) {
           throw new Error("Failed to fetch notifications. Please try again.")
         }
 
         const data = await response.json()
+         console.log("Response Data:", data)
 
         // If a new token is provided in the response, store it
         if (data.access_token) {
@@ -73,7 +75,7 @@ const NotificationsPage: React.FC = () => {
           </h1>
         </div>
         <div>
-          <BackButton text="Go Back" link="userDashboard" />
+          <BackButton text="Go Back" link="/userDashboard" />
         </div>
       </div>
       {loading ? (
