@@ -18,6 +18,7 @@ const getToken = () => {
 
 const EditUserDataPage: React.FC = () => {
   const [username, setUsername] = useState("");
+  const [newusername, setNewusername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -93,8 +94,8 @@ const EditUserDataPage: React.FC = () => {
           </Label>
           <Input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={newusername}
+            onChange={(e) => setNewusername(e.target.value)}
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             required
           />
