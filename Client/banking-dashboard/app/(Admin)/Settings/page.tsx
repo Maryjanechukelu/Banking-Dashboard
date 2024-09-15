@@ -6,7 +6,7 @@ import {
   FaUserPlus,
   FaMoneyBillWave,
 } from "react-icons/fa"
-import useAuth from "@/useAuth"
+import useAuth from "@/app/useAuth"
 
 const Settings: React.FC = () => {
   useAuth()

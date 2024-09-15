@@ -5,7 +5,7 @@ import RightSidebar from "@/components/RightSidebar"
 import Notification from "@/components/Notification"
 import TotalBalanceBox from "@/components/TotalBalanceBox"
 import { toast } from "react-toastify"
-import useAuth from "@/useAuth"
+import useAuth from "@/app/useAuth"
 
 interface Account {
   email: string
@@ -37,9 +37,8 @@ const getToken = () => {
 const Home: React.FC = () => {
   useAuth()
   const [accounts, setAccounts] = useState<Account[]>([])
-  const [user, setUser] = useState<User>() 
+  const [user, setUser] = useState<User>()
   const hasFetchedData = useRef(false)
- 
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -51,13 +50,16 @@ const Home: React.FC = () => {
           throw new Error("No access token available. Please log in.")
         }
 
-        const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/account", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        const response = await fetch(
+          "https://swiss-ultra-api-2.onrender.com/auth/account",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
 
         if (!response.ok) {
           if (response.status === 401) {
@@ -95,7 +97,7 @@ const Home: React.FC = () => {
         )
       } finally {
         // Mark data as fetched to prevent multiple toasts
-        hasFetchedData.current = true;
+        hasFetchedData.current = true
       }
     }
 
@@ -114,7 +116,7 @@ const Home: React.FC = () => {
           />
           <TotalBalanceBox />
         </header>
-         <Notification />
+        <Notification />
       </div>
 
       <RightSidebar />

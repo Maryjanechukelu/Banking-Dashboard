@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader } from "lucide-react"
-import BackButton from '@/components/backButton';
-import useAuth from "@/useAuth"
+import BackButton from "@/components/backButton"
+import useAuth from "@/app/useAuth"
 
 interface Account {
   email: string
@@ -51,24 +51,27 @@ const CreateAdminAccountPage: React.FC = () => {
       if (!accessToken) {
         throw new Error("No access token available. Please log in.")
       }
-      const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/admin/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ username, email, password }),
-      })
+      const response = await fetch(
+        "https://swiss-ultra-api-2.onrender.com/auth/admin/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ username, email, password }),
+        }
+      )
 
       if (!response.ok) {
         throw new Error("Failed to create admin account. Please try again.")
       }
-        const data: Account[] = await response.json()
+      const data: Account[] = await response.json()
 
-        // Store the token if provided
-        if (data[0]?.data) {
-          storeToken(data[0].data)
-        }
+      // Store the token if provided
+      if (data[0]?.data) {
+        storeToken(data[0].data)
+      }
       toast.success("Admin account created successfully")
     } catch (error) {
       toast.error(`Error creating admin account: ${(error as Error).message}`)

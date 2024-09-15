@@ -6,7 +6,7 @@ import Notification from "@/components/Notification"
 import TotalBalanceBox from "@/components/TotalBalanceBox"
 import { toast } from "react-toastify" 
 import "react-toastify/dist/ReactToastify.css"
-import useAuth from "@/useAuth"
+import useAuth from "@/app/useAuth"
 
 interface Account {
   email: string

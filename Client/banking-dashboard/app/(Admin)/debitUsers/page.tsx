@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Loader } from "lucide-react";
-import BackButton from '@/components/backButton';
-import useAuth from "@/useAuth"
+import React, { useState } from "react"
+import { toast } from "react-toastify"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Loader } from "lucide-react"
+import BackButton from "@/components/backButton"
+import useAuth from "@/app/useAuth"
 
 const storeToken = (accessToken: string) => {
   localStorage.setItem("access_token", accessToken)
@@ -20,14 +20,14 @@ const getToken = () => {
 
 const DebitUserPage: React.FC = () => {
   useAuth()
-  const [accountNumber, setAccountNumber] = useState("");
-  const [amount, setAmount] = useState("");
+  const [accountNumber, setAccountNumber] = useState("")
+  const [amount, setAmount] = useState("")
   const [username, setUsername] = useState<string>("")
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
 
     try {
       const accessToken = getToken()
@@ -49,12 +49,12 @@ const DebitUserPage: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to debit user. Please try again.")
       }
-        const data = await response.json()
+      const data = await response.json()
 
-        // Store the token if provided
-        if (data[0]?.data) {
-          storeToken(data[0].data)
-        }
+      // Store the token if provided
+      if (data[0]?.data) {
+        storeToken(data[0].data)
+      }
       toast.success("Account balance debited successfully")
     } catch (error) {
       toast.error(`Error debiting user: ${(error as Error).message}`)
@@ -65,17 +65,20 @@ const DebitUserPage: React.FC = () => {
 
   return (
     <>
-       <div className="flex justify-between p-4">
+      <div className="flex justify-between p-4">
         <div>
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-indigo-900">
-        Debit Users
-      </h1>
-      </div>
-      <div>
-        <BackButton text='Go Back' link='/Settings' />
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-indigo-900">
+            Debit Users
+          </h1>
+        </div>
+        <div>
+          <BackButton text="Go Back" link="/Settings" />
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4"
+      >
         <div>
           <Label className="block text-sm font-medium text-gray-700">
             Username
@@ -88,7 +91,7 @@ const DebitUserPage: React.FC = () => {
             required
           />
         </div>
-         <div>
+        <div>
           <Label className="block text-sm font-medium text-gray-700">
             Account Number
           </Label>
@@ -117,11 +120,15 @@ const DebitUserPage: React.FC = () => {
           className="px-4 py-2 bg-indigo-900 text-white rounded-md w-full sm:w-auto"
           disabled={loading}
         >
-          {loading ? <Loader className="animate-spin" size={20} /> : "Debit User"}
+          {loading ? (
+            <Loader className="animate-spin" size={20} />
+          ) : (
+            "Debit User"
+          )}
         </Button>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default DebitUserPage;
+export default DebitUserPage

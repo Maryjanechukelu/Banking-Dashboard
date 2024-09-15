@@ -2,7 +2,7 @@
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import useAuth from "@/useAuth"
+import useAuth from "@/app/useAuth"
 
 interface AccountDetails {
   username: string
@@ -36,13 +36,16 @@ const UserAccountsPage: React.FC = () => {
           throw new Error("No access token available. Please log in.")
         }
 
-        const response = await fetch("https://swiss-ultra-api-2.onrender.com/auth/account", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`, // Replace with actual token handling logic
-          },
-        })
+        const response = await fetch(
+          "https://swiss-ultra-api-2.onrender.com/auth/account",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`, // Replace with actual token handling logic
+            },
+          }
+        )
 
         if (!response.ok) {
           // Handle 401 unauthorized error separately

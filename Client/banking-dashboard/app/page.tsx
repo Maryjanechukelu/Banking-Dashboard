@@ -14,7 +14,7 @@ export default function Home() {
     const timer = setTimeout(() => {
       setLoading(false);
       // Redirect to the sign-up page
-      router.push("/sign-up");
+      router.push("/sign-in");
     }, 1500); // 3 seconds
 
     return () => clearTimeout(timer); // Cleanup the timer

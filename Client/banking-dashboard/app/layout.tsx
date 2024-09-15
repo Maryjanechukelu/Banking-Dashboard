@@ -29,9 +29,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <ToastContainer />
-      <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>{children}</body>
+      <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
+        <link rel="icon" href="/logo.svg" />
+        {children}
+      </body>
     </html>
   )
 }
