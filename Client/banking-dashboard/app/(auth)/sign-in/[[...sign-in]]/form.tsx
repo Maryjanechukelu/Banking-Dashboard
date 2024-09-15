@@ -47,7 +47,7 @@ export const SigninForm = () => {
           setRedirecting(true) // Start redirecting loader
 
           // Determine the redirection path based on user role
-          const userRole = data.user.is_admin
+          const userRole = data.is_admin
           if (userRole === true) {
            
             router.push("/adminDashboard")
