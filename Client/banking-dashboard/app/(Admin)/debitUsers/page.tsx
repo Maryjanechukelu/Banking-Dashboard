@@ -42,7 +42,11 @@ const DebitUserPage: React.FC = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ username, amount, accountNumber }),
+            body: JSON.stringify({
+            username,
+            account_number: accountNumber, 
+            amount: parseFloat(amount),  
+          }),
         }
       )
 
