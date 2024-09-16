@@ -22,7 +22,7 @@ const Sidebar: React.FC = () => {
             alt="Horizon logo"
             className="size-[24px] max-xl:size-14"
           />
-          <h1 className="sidebar-logo">Ultra</h1>
+          <h1 className="sidebar-logo">SwitzUltra</h1>
         </Link>
 
         {sidebarLinks.map((item) => {

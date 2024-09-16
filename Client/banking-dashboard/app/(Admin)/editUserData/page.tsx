@@ -18,7 +18,7 @@ const getToken = () => {
 
 const EditUserDataPage: React.FC = () => {
   const [username, setUsername] = useState("");
-  const [newusername, setNewusername] = useState("");
+  const [newUsername, setNewusername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +39,11 @@ const EditUserDataPage: React.FC = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ username, email }),
+          body: JSON.stringify({
+            username,
+            new_username: newUsername,
+            new_email: email,
+          }),
         }
       )
 
@@ -94,7 +98,7 @@ const EditUserDataPage: React.FC = () => {
           </Label>
           <Input
             type="text"
-            value={newusername}
+            value={newUsername}
             onChange={(e) => setNewusername(e.target.value)}
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
             required
