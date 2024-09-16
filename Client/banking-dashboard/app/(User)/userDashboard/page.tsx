@@ -40,69 +40,55 @@ const Home: React.FC = () => {
   const [user, setUser] = useState<User>()
   const hasFetchedData = useRef(false)
 
-  useEffect(() => {
-    const fetchAccountDetails = async () => {
-      // Check if data has already been fetched to prevent multiple fetches
-      if (hasFetchedData.current) return
-      try {
-        const accessToken = getToken()
-        if (!accessToken) {
-          throw new Error("No access token available. Please log in.")
-        }
+ useEffect(() => {
+   const fetchAccountDetails = async () => {
+     // Prevent multiple fetches
+     if (hasFetchedData.current) return
+     try {
+       const accessToken = getToken()
+       if (!accessToken) {
+         throw new Error("No access token available. Please log in.")
+       }
 
-        const response = await fetch(
-          "https://swiss-ultra-api-2.onrender.com/auth/account",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+       const response = await fetch(
+         "https://swiss-ultra-api-2.onrender.com/auth/account",
+         {
+           method: "GET",
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${accessToken}`,
+           },
+         }
+       )
 
-        if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error("Unauthorized access. Please log in again.")
-          }
-          throw new Error("Failed to fetch account details. Please try again.")
-        }
+       if (!response.ok) {
+         if (response.status === 401) {
+           throw new Error("Unauthorized access. Please log in again.")
+         }
+         throw new Error("Failed to fetch account details. Please try again.")
+       }
 
-        const data: Account[] = await response.json()
+       const data: User = await response.json()
 
-        // Store the token if provided
-        if (data[0]?.data) {
-          storeToken(data[0].data)
-        }
+       // Store the token if provided
+       if (data?.data) {
+         storeToken(data.data)
+       }
 
-        setAccounts(data)
+       setUser(data)
 
-        // Map Account data to User data
-        if (data.length > 0) {
-          const userData: User = {
-            data: data[0].data,
-            username: data[0].username,
-            email: data[0].email,
-            account_number: data[0].account_number,
-            account_balance: data[0].account_balance,
-            last_credited_amount: data[0].last_credited_amount,
-          }
-          setUser(userData)
-        }
+       toast.success("User fetched successfully")
+     } catch (error) {
+       toast.error(
+         `Error fetching account details: ${(error as Error).message}`
+       )
+     } finally {
+       hasFetchedData.current = true
+     }
+   }
 
-        toast.success("Successful")
-      } catch (error) {
-        toast.error(
-          `Error fetching account details: ${(error as Error).message}`
-        )
-      } finally {
-        // Mark data as fetched to prevent multiple toasts
-        hasFetchedData.current = true
-      }
-    }
-
-    fetchAccountDetails()
-  }, [])
+   fetchAccountDetails()
+ }, [])
 
   return (
     <section className="home">

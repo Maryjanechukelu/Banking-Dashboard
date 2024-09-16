@@ -44,7 +44,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
-      // Check if data has already been fetched to prevent multiple fetches
+      // Prevent multiple fetches
       if (hasFetchedData.current) return
       try {
         const accessToken = getToken()
@@ -70,45 +70,28 @@ const Home: React.FC = () => {
           throw new Error("Failed to fetch account details. Please try again.")
         }
 
-        const data: Account[] = await response.json()
+        const data: User = await response.json()
 
         // Store the token if provided
-        if (data[0]?.data) {
-          storeToken(data[0].data)
+        if (data?.data) {
+          storeToken(data.data)
         }
 
-        setAccounts(data)
+        setUser(data)
 
-        // Map Account data to User data
-        if (data.length > 0) {
-          const userData: User = {
-            data: data[0].data,
-            username: data[0].username,
-            email: data[0].email,
-            account_number: data[0].account_number,
-            account_balance: data[0].account_balance,
-            last_credited_amount: data[0].last_credited_amount,
-          }
-          setUser(userData)
-        }
-
-        // Show toast only once on the first successful fetch
-        if (!toastShown.current) {
-          // toast.success("Welcome to the Dashboard!") // Message tailored to the dashboard
-          toastShown.current = true // Mark toast as shown
-        }
+        toast.success("User fetched successfully")
       } catch (error) {
         toast.error(
           `Error fetching account details: ${(error as Error).message}`
         )
       } finally {
-        // Mark data as fetched to prevent multiple toasts
         hasFetchedData.current = true
       }
     }
 
     fetchAccountDetails()
   }, [])
+
 
   return (
     <section className="home"> 
