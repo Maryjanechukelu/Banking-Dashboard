@@ -75,56 +75,58 @@ const ViewUsersPage: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between p-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-indigo-900">
-            View Users
-          </h1>
+      <div className="flex flex-col h-screen">
+        <div className="flex justify-between p-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-indigo-900">
+              View Users
+            </h1>
+          </div>
+          <div>
+            <BackButton text="Go Back" link="/Settings" />
+          </div>
         </div>
-        <div>
-          <BackButton text="Go Back" link="/Settings" />
-        </div>
-      </div>
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <Loader
-            className="animate-spin flex justify-center items-center"
-            size={20}
+        {loading ? (
+          <div className="flex justify-center items-center flex-grow">
+            <Loader
+              className="animate-spin flex justify-center items-center"
+              size={20}
+            />
+          </div>
+        ) : (
+          <div className="overflow-x-auto px-4 flex-grow">
+            <table className="min-w-full bg-white border">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 text-left">Username</th>
+                  <th className="py-2 px-4 text-left">Email</th>
+                  <th className="py-2 px-4 text-left">Account Number</th>
+                  <th className="py-2 px-4 text-left">Balance</th>
+                  <th className="py-2 px-4 text-left">Last Credited</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.id} className="border-t">
+                    <td className="py-2 px-4">{user.username}</td>
+                    <td className="py-2 px-4">{user.email}</td>
+                    <td className="py-2 px-4">{user.account_number}</td>
+                    <td className="py-2 px-4">${user.account_balance}</td>
+                    <td className="py-2 px-4">${user.last_credited_amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {/* Pagination Component */}
+        <div className="flex justify-center mt-[500px]">
+          <PostsPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />
         </div>
-      ) : (
-        <div className="overflow-x-auto px-4">
-          <table className="min-w-full bg-white border">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 text-left">Username</th>
-                <th className="py-2 px-4 text-left">Email</th>
-                <th className="py-2 px-4 text-left">Account Number</th>
-                <th className="py-2 px-4 text-left">Balance</th>
-                <th className="py-2 px-4 text-left">Last Credited</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="border-t">
-                  <td className="py-2 px-4">{user.username}</td>
-                  <td className="py-2 px-4">{user.email}</td>
-                  <td className="py-2 px-4">{user.account_number}</td>
-                  <td className="py-2 px-4">${user.account_balance}</td>
-                  <td className="py-2 px-4">${user.last_credited_amount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      {/* Pagination Component */}
-      <div className="flex justify-center mt-[500px]">
-        <PostsPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
       </div>
     </>
   )
