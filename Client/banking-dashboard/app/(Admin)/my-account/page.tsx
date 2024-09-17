@@ -61,7 +61,7 @@ const UserAccountsPage: React.FC = () => {
           storeToken(data.access_token)
         }
         setAccountDetails(data)
-        toast.success("Account details fetched successfully")
+        // toast.success("Account details fetched successfully")
       } catch (error) {
         toast.error(
           `Error fetching account details: ${(error as Error).message}`
@@ -75,7 +75,7 @@ const UserAccountsPage: React.FC = () => {
   }, [])
 
   return (
-    <div className="px-4 max-w-full mx-auto pt-6 mt-10">
+    <div className="px-4 w-full pt-6 mt-10 flex justify-center">
       {loading ? (
         <div className="flex justify-center items-center h-full">
           <Image
@@ -88,19 +88,19 @@ const UserAccountsPage: React.FC = () => {
         </div>
       ) : accountDetails ? (
         <div className="space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto px-4">
-          <div className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">
+           <h1 className="text-2xl font-bold p-4 text-white mb-4 bg-indigo-900 rounded-lg shadow-lg border border-gray-200 ">
               Hello, {accountDetails.username}
             </h1>
-            <p className="text-lg font-semibold text-gray-800 mb-2">
+          <div className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto">
+            <h1 className="text-lg font-semibold text-indigo-900 mb-2"> Please view your account details below:</h1>
+            <p className=" mb-2">
               Account Number: {accountDetails.account_number}
             </p>
-            <p className="text-lg font-semibold text-gray-800 mb-2">
-              Account Balance: ${accountDetails.account_balance.toFixed(2)}
+            <p className="mb-2">
+              Account Balance: $ {accountDetails.account_balance.toFixed(2)}
             </p>
-            <p className="text-sm text-gray-600">
-              Last Credited Amount: $
-              {accountDetails.last_credited_amount.toFixed(2)}
+            <p className="">
+              Last Credited Amount: $ {accountDetails.last_credited_amount.toFixed(2)}
             </p>
           </div>
         </div>

@@ -76,12 +76,12 @@ const NotificationsPage: React.FC = () => {
             notifications.map((notification, index) => (
               <div
                 key={index}
-                className="p-4 bg-white shadow-sm rounded-md border border-gray-200"
+                className="p-2 bg-purple-300 shadow-sm rounded-md border border-gray-200"
               >
-                <p className="text-sm font-medium text-gray-800">
+                <p className="text-sm font-medium text-white">
                   {notification.message}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-white">
                   {new Date(notification.timestamp).toLocaleString()}
                 </p>
               </div>

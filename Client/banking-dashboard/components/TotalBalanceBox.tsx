@@ -105,16 +105,17 @@ const TotalBalanceBox: React.FC = () => {
         <h1 className="header-2">Account Number: {account.account_number}</h1>
         <div className="flex flex-col gap-2">
           <h1 className="total-balance-label">
-            Last Credited Amount: {account.last_credited_amount}
+            Last Credited Amount: $ {account.last_credited_amount.toFixed(2)}
           </h1>
-          <h1 className="total-balance-label">
-            Total Balance: {account.account_balance}
+          <h1 className="total-balance-label mt-3">
+            Total Balance: $ {account.account_balance.toFixed(2)}
           </h1>
 
           {/* <div className="total-balance-amount flex-center gap-2">
             <AnimatedCounter account={account.account_balance} />
           </div> */}
         </div>
+        <div></div>
       </div>
     </section>
   )

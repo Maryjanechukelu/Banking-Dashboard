@@ -77,7 +77,7 @@ const Home: React.FC = () => {
 
        setUser(data)
 
-       toast.success("User fetched successfully")
+      //  toast.success("User fetched successfully")
      } catch (error) {
        toast.error(
          `Error fetching account details: ${(error as Error).message}`

@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import { useEffect, useState } from "react"; 
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -11,8 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Notification from "@/components/Notification"
+import { Loader } from "lucide-react"
 
 const RightSidebar: React.FC = () => {
+
+  const [loading, setLoading] = useState<boolean>(true)
+  
   return (
     <aside className="right-sidebar w-full max-w-sm bg-white p-6 shadow-lg rounded-lg">
       <section className="flex flex-col pb-8 items-center">
@@ -57,8 +62,17 @@ const RightSidebar: React.FC = () => {
         </div>
 
         <div className="mt-10 flex flex-col gap-6">
-          <h2 className="text-lg font-bold text-gray-800">History</h2>
-          <p className="text-sm text-gray-500">No history available</p>
+          {loading ? (
+        <div className="flex justify-center items-center h-full">
+         <Loader />
+        </div>
+             
+      ) : (
+              <div>
+                <h2 className="text-lg font-bold text-gray-800">History</h2>
+                <Notification />
+              </div>
+      )}
         </div>
       </section>
     </aside>
@@ -66,3 +80,4 @@ const RightSidebar: React.FC = () => {
 }
 
 export default RightSidebar
+

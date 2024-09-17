@@ -61,7 +61,7 @@
   }
 
   .header-2 {
-    @apply text-18 font-semibold text-gray-900;
+    @apply text-18 font-semibold text-white;
   }
 
   .text-10 {
@@ -118,7 +118,7 @@
   }
 
   .total-balance {
-    @apply flex w-full items-center gap-4 rounded-xl border border-gray-200 p-4 shadow-chart sm:gap-6 sm:p-6;
+    @apply flex w-full items-center gap-4 rounded-xl border bg-indigo-900 text-white border-gray-200 p-4 shadow-chart sm:gap-6 sm:p-6;
   }
 
   .total-balance-chart {
@@ -126,7 +126,7 @@
   }
 
   .total-balance-label {
-    @apply text-18 font-medium text-indigo-900;
+    @apply text-18 font-medium text-white;
   }
 
   .total-balance-amount {
