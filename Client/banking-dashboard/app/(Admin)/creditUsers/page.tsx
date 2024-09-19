@@ -62,6 +62,12 @@ const CreditUsersPage: React.FC = () => {
         storeToken(data[0].data)
       }
       toast.success("Account balance credited successfully")
+
+      setAccountNumber ("")
+      setAmount ("")
+      setDepositor ("")
+      setUsername ("")
+
     } catch (error) {
       toast.error(`Error crediting user: ${(error as Error).message}`)
     } finally {

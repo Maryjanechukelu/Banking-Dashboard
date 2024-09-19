@@ -73,6 +73,10 @@ const CreateAdminAccountPage: React.FC = () => {
         storeToken(data[0].data)
       }
       toast.success("Admin account created successfully")
+    setUsername("") 
+    setEmail("")
+    setPassword("")
+    
     } catch (error) {
       toast.error(`Error creating admin account: ${(error as Error).message}`)
     } finally {

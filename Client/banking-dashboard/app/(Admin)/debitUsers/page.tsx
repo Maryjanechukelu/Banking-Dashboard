@@ -60,6 +60,10 @@ const DebitUserPage: React.FC = () => {
         storeToken(data[0].data)
       }
       toast.success("Account balance debited successfully")
+
+      setAccountNumber ("")
+      setAmount ("")
+      setUsername ("")
     } catch (error) {
       toast.error(`Error debiting user: ${(error as Error).message}`)
     } finally {

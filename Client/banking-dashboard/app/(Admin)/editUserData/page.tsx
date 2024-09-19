@@ -57,6 +57,10 @@ const EditUserDataPage: React.FC = () => {
           storeToken(data[0].data)
         }
       toast.success("User information updated successfully")
+
+      setUsername ("")
+      setNewusername ("")
+      setEmail ("")
     } catch (error) {
       toast.error(`Error updating user info: ${(error as Error).message}`)
     } finally {
