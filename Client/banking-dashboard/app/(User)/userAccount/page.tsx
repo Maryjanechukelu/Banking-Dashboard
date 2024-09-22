@@ -100,11 +100,12 @@ const UserAccountsPage: React.FC = () => {
               Account Number: {accountDetails.account_number}
             </p>
             <p className="mb-2">
-              Account Balance: $ {accountDetails.account_balance.toFixed(2)}
+              Account Balance: ${" "}
+              {Number(accountDetails.last_credited_amount ?? 0).toFixed(2)}
             </p>
             <p className="">
               Last Credited Amount: ${" "}
-              {accountDetails.last_credited_amount.toFixed(2)}
+              {Number(accountDetails.account_balance ?? 0).toFixed(2)}
             </p>
           </div>
         </div>
