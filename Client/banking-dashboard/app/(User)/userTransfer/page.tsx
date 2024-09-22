@@ -57,13 +57,13 @@ const TransferForm: React.FC = () => {
             reciever_bank: recipientBank,
             reciever_name: recipientName,
             reciever_account_number: accountNumber,
-            routing_number: routingNumber,
             amount: parseFloat(amount),
           }),
         }
       )
 
       const data = await response.json()
+      console.log(data)
 
       if (response.ok && data.access_token) {
         storeToken(data.access_token)
