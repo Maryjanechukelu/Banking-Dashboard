@@ -17,6 +17,13 @@ import { Loader } from "lucide-react"
 const RightSidebar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
 
+  useEffect(() => {
+    // Simulating data fetch with a timeout
+    setTimeout(() => {
+      setLoading(false) // Ensure this is called to stop loading and show the Notification component
+    }, 1000)
+  }, [])
+
   return (
     <aside className="right-sidebar w-full max-w-sm bg-white p-6 shadow-lg rounded-lg">
       <section className="flex flex-col pb-8 items-center">
@@ -63,11 +70,11 @@ const RightSidebar: React.FC = () => {
         <div className="mt-10 flex flex-col gap-6">
           {loading ? (
             <div className="flex justify-center items-center h-full">
-              <Loader />
+              <Loader className="animate-spin" />
             </div>
           ) : (
             <div>
-              <h2 className="text-lg font-bold text-gray-800">History</h2>
+              <h2 className="text-lg font-bold text-gray-800 pb-5">History</h2>
               <Notification />
             </div>
           )}

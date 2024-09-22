@@ -375,4 +375,27 @@
   .sidebar-label {
     @apply text-16 font-semibold text-black-2 max-xl:hidden;
   }
+
+  /* Pop-up Modal */
+  .shad-primary-btn{
+     @apply bg-indigo-900 hover:bg-indigo-500 text-white;
+  }
+
+  .shad-error {
+  @apply text-red-600 text-sm mt-2 flex justify-center;
+}
+
+.shad-otp {
+  @apply flex justify-center gap-2 mt-4;
+}
+
+.shad-otp-slot {
+  @apply border border-gray-300 rounded-md p-2 w-14 h-14 text-center text-lg focus:outline-none focus:border-indigo-500;
+}
+
+.shad-alert-dialog {
+  @apply bg-white shadow-lg rounded-lg p-6 w-full max-w-md mx-auto;
+  z-index: 50;
+}
+
 }

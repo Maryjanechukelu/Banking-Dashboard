@@ -21,7 +21,7 @@ const SignUp = () => {
           </p>
         </div>
       </div>
-      <div className="h-full bg-neutral-200 hidden lg:flex justify-center items-center ">
+      <div className="h-full bg-indigo-900 hidden lg:flex justify-center items-center ">
         <Image
           src="/logo.svg"
           alt="Next.js Logo"

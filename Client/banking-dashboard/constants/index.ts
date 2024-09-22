@@ -4,6 +4,11 @@ export const sidebarLinks = [
     route: "/userDashboard",
     label: "Home",
   },
+   {
+    imgURL: "/icons/circle-dollar-sign.svg",
+    route: "/userTransfer",
+    label: "Transfer",
+  },
   {
     imgURL: "/icons/square-user-round.svg",
     route: "/userAccount",
@@ -12,7 +17,7 @@ export const sidebarLinks = [
    {
     imgURL: "/icons/bell.svg",
     route: "/userNotification",
-    label: "Notifications",
+    label: "History",
   },
    {
     imgURL: "/icons/calendar-days.svg",

@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/nextjs": "^5.2.14",
     "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
@@ -29,6 +30,7 @@
     "cmdk": "^1.0.0",
     "cookie": "^0.6.0",
     "date-fns": "^3.6.0",
+    "input-otp": "^1.2.4",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.424.0",

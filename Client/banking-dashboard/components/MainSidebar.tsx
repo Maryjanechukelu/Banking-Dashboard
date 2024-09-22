@@ -29,16 +29,22 @@ const Sidebar: React.FC = () => {
           const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`)
 
           return (
-            <Link href={item.route} key={item.label}
-              className={cn('sidebar-link', "hover:bg-gray-200", { 'bg-indigo-900': isActive })}
+            <Link
+              href={item.route}
+              key={item.label}
+              className={cn("sidebar-link", "hover:bg-gray-200", {
+                "bg-indigo-900": isActive,
+              })}
             >
               <div className="relative size-6">
-                <Image 
+                <Image
                   src={item.imgURL}
                   alt={item.label}
                   fill
                   className={cn({
-                    'brightness-[3] invert-0': isActive
+                    "brightness-[3] filter invert": isActive,
+                    "brightness-[0.6]": !isActive,
+                    'fill-gray-400': !isActive,
                   })}
                 />
               </div>
