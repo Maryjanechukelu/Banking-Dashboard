@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
@@ -20,6 +20,17 @@ import {
 } from "@/components/ui/input-otp"
 import { Ellipsis } from "lucide-react"
 import LoadingOverlay from "@/components/LoadingOverlay"
+
+
+const storeToken = (accessToken: string) => {
+  localStorage.setItem("access_token", accessToken)
+}
+
+// Utility function to get the stored token
+const getToken = () => {
+  return localStorage.getItem("access_token")
+}
+
 
 const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
   const [open, setOpen] = useState(true) // Keep modal open initially
@@ -44,16 +55,27 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
     setIsLoading(true) // Start loading state
 
     try {
-      const response = await fetch("/api/validate-passkey", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ passkey }),
-      })
+     const accessToken = getToken()
+      if (!accessToken) {
+        throw new Error("No access token available. Please log in.")
+      }
+      const response = await fetch(
+        "https://swiss-ultra-api-2.onrender.com/auth/verify_transfer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ passkey }),
+        }
+      )
 
       const data = await response.json()
 
+        if (data[0]?.data) {
+        storeToken(data[0].data)
+      }
       if (response.ok && data.valid) {
         setOpen(false)
         router.push("/TaxOtpModal")
@@ -133,3 +155,5 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
 }
 
 export default OtpModal
+
+  
