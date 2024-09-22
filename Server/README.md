@@ -233,4 +233,13 @@ Optionally, you can create an initial admin user using the createAdmin.py script
 python createAdmin.py
 <h2>Notes</h2>
 Make sure to replace placeholder values like <JWT_TOKEN> with actual tokens and data in your requests.
+---
+
+***New end points***
+***'auth/transfer', methods=['POST']***
+***'auth/verify_transfer', methods=['POST']***
+***'auth/complete_transfer', methods=['POST']***
+***auth/forgot_password', methods=['POST']***
+***'auth/reset_password/<token>', methods=['POST']***
+***'auth/send_message', methods=['POST']***
 
