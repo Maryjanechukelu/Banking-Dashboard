@@ -1,14 +1,16 @@
-"use client"
+'use client';
 
-import React, { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { useToast } from "@/components/ui/use-toast"
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { toast } from "react-toastify"
 import BackButton from "@/components/backButton"
 import useAuth from "@/app/useAuth"
-import OtpModal from "@/components/OtpModal"
-import { useRouter } from "next/navigation"
+import OtpModal from '@/components/OtpModal';
+import { Dispatch, SetStateAction } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+
 
 const storeToken = (accessToken: string) => {
   localStorage.setItem("access_token", accessToken)
@@ -19,11 +21,10 @@ const getToken = () => {
   return localStorage.getItem("access_token")
 }
 
-const TransferForm: React.FC = () => {
-  useAuth()
-  const { toast } = useToast()
-  const router = useRouter()
 
+const TransferForm: React.FC = () => {
+  useAuth();
+  const router = useRouter()
   const [recipientBank, setRecipientBank] = useState("")
   const [recipientName, setRecipientName] = useState("")
   const [accountNumber, setAccountNumber] = useState("")
@@ -34,17 +35,16 @@ const TransferForm: React.FC = () => {
   const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     setOtpModalOpen(true)
-    setError("")
+    setError("");
 
-    try {
-      const accessToken = getToken()
+  const accessToken = getToken()
       if (!accessToken) {
         throw new Error("No access token available. Please log in.")
       }
-
+    try {
       const response = await fetch(
         "https://swiss-ultra-api-2.onrender.com/auth/transfer",
         {
@@ -54,41 +54,47 @@ const TransferForm: React.FC = () => {
             Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
-            reciever_bank: recipientBank,
-            reciever_name: recipientName,
-            reciever_account_number: accountNumber,
+            receiver_bank: recipientBank,
+            receiver_name: recipientName,
+            receiver_account_number: accountNumber,
+            routing_number: routingNumber,
             amount: parseFloat(amount),
           }),
         }
       )
 
-      const data = await response.json()
-      console.log(data)
+      if (response.ok) {
+        const data = await response.json()
+         console.error("Error Response:", data)
+        const accessToken = data.access_token
 
-      if (response.ok && data.access_token) {
-        storeToken(data.access_token)
-        setOtpModalOpen(false)
-        router.push("/TaxOtpModal")
-
-        // Clear form data after success
-        setRecipientBank("")
-        setRecipientName("")
-        setAccountNumber("")
-        setRoutingNumber("")
-        setAmount("")
+        if (accessToken) {
+          storeToken(accessToken)
+          // setOtpModalOpen(true)
+          // router.push("/OtpModal")
+        }
+         setOtpModalOpen(true) 
+        setRecipientBank(""),
+          setRecipientName(""),
+          setAccountNumber(""),
+          setRoutingNumber(""),
+          setAmount("")
+       
       } else {
-        setError(data.message || "Transfer failed. Please try again.")
+        const data = await response.json();
+        toast.error(data.message || "Transfer failed. Please try again.")
       }
     } catch (error) {
-      setError(
-        `There was an error processing the transfer. Please try again later: ${
-          (error as Error).message
-        }`
-      )
+      if (error instanceof Error) {
+        setError(`There was an error processing the transfer: ${error.message}`)
+      } else {
+        setError("There was an unknown error processing the transfer.")
+      }
     } finally {
-      setLoading(false) // End loading state
+      setLoading(false)
     }
-  }
+};
+
 
   return (
     <>
@@ -152,7 +158,10 @@ const TransferForm: React.FC = () => {
 
             {/* Account Number */}
             <div className="flex items-center space-x-4">
-              <Label htmlFor="accountNumber" className="w-1/3 text-right">
+              <Label
+                htmlFor="accountNumber"
+                className="w-1/3 text-right"
+              >
                 {"Recipient's"} Account Number
               </Label>
               <Input
@@ -216,9 +225,13 @@ const TransferForm: React.FC = () => {
       </div>
 
       {/* OTP Modal */}
-      {isOtpModalOpen && <OtpModal closeModal={() => setOtpModalOpen(false)} />}
+      {isOtpModalOpen && (
+        <OtpModal
+          closeModal={() => setOtpModalOpen(false)}
+        />
+      )}
     </>
   )
 }
 
-export default TransferForm
+export default TransferForm;

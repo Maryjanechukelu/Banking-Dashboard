@@ -60,7 +60,7 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
         throw new Error("No access token available. Please log in.")
       }
       const response = await fetch(
-        "https://swiss-ultra-api-2.onrender.com/auth/verify_transfer",
+        "https://swiss-ultra-api-2.onrender.com/auth/verify_auth_code",
         {
           method: "POST",
           headers: {
@@ -104,7 +104,7 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
         <AlertDialogContent className="shad-alert-dialog">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-start justify-between">
-              3-Digit Authourization Pin 
+              3 Digit Authourization Pin 
               <Image
                 src="/icons/x.svg"
                 alt="close"
@@ -115,12 +115,12 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
               />
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Please enter sent 3-digit Authorization pin that was sent to your account registered email.
+             Enter 3 digit pin that was sent to your account registered email.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <div>
+          <div className="">
             <InputOTP
-              maxLength={6}
+              maxLength={3}
               value={passkey}
               onChange={(value) => setPasskey(value)}
             >
@@ -128,9 +128,6 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
                 <InputOTPSlot className="shad-otp-slot" index={0} />
                 <InputOTPSlot className="shad-otp-slot" index={1} />
                 <InputOTPSlot className="shad-otp-slot" index={2} />
-                <InputOTPSlot className="shad-otp-slot" index={3} />
-                <InputOTPSlot className="shad-otp-slot" index={4} />
-                <InputOTPSlot className="shad-otp-slot" index={5} />
               </InputOTPGroup>
             </InputOTP>
 
