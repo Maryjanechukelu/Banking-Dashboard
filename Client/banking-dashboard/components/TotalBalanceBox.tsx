@@ -106,10 +106,26 @@ const TotalBalanceBox: React.FC = () => {
         <div className="flex flex-col gap-2">
           <h1 className="total-balance-label">
             Last Credited Amount: ${" "}
-            {Number(account.last_credited_amount ?? 0).toFixed(2)}
+            {account?.last_credited_amount != null
+              ? parseFloat(
+                  account.last_credited_amount.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Amount"}
           </h1>
+
           <h1 className="total-balance-label mt-3">
-            Total Balance: $ {Number(account.account_balance ?? 0).toFixed(2)}
+            Total Balance: ${" "}
+            {account?.account_balance != null
+              ? parseFloat(
+                  account.account_balance.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Balance"}
           </h1>
 
           {/* <div className="total-balance-amount flex-center gap-2">

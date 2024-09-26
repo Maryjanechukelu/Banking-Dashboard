@@ -385,8 +385,12 @@
   @apply text-red-600 text-sm mt-2 flex justify-center;
 }
 
+.shad-otp-container {
+  @apply flex flex-col justify-center items-center h-full; /* Ensure full-height flexbox for vertical centering */
+}
+
 .shad-otp {
-  @apply flex justify-center items-center gap-2 mt-4;
+  @apply flex justify-center items-center gap-2;
 }
 
 .shad-otp-slot {

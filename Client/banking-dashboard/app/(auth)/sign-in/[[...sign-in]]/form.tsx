@@ -19,7 +19,7 @@ const storeToken = (token: string) => {
 export const SigninForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  // const callbackUrl = searchParams.get("callbackUrl") || "/userDashboard" 
+  // const callbackUrl = searchParams.get("callbackUrl") || "/userDashboard"
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -73,6 +73,39 @@ export const SigninForm = () => {
     }
   }
 
+  const handleForgotPassword = async () => {
+    const email = prompt("Please enter your registered email address:")
+
+    if (email) {
+      try {
+        const response = await fetch(
+          "https://swiss-ultra-api-2.onrender.com/auth/forgot_password",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          }
+        )
+
+        if (response.ok) {
+          const data = await response.json()
+          alert(data.message || "Reset link sent successfully!")
+        } else {
+          const errorData = await response.json()
+          alert(errorData.error || "Failed to send reset link.")
+        }
+      } catch (error) {
+        alert(
+          "An error occurred while sending the reset link. Please try again."
+        )
+      }
+    } else {
+      alert("Email address is required.")
+    }
+  }
+
   return (
     <form onSubmit={handleLogin} className="space-y-12 w-full sm:w-[400px]">
       <div className="grid w-full items-center gap-1.5">
@@ -108,6 +141,19 @@ export const SigninForm = () => {
           {loading ? <Loader className="animate-spin" /> : "Login"}
         </Button>
       </div>
+
+      {/* Forgot Password Link */}
+      <div className="text-center mt-4">
+        <button
+          type="button"
+          onClick={handleForgotPassword}
+          className="text-indigo-600 hover:underline"
+        >
+          Forgot Password?
+        </button>
+      </div>
     </form>
   )
 }
+
+export default SigninForm 

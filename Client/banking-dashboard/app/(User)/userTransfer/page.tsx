@@ -65,7 +65,7 @@ const TransferForm: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json()
-         console.error("Error Response:", data)
+         toast.info(data.message)
         const accessToken = data.access_token
 
         if (accessToken) {
@@ -73,12 +73,12 @@ const TransferForm: React.FC = () => {
           // setOtpModalOpen(true)
           // router.push("/OtpModal")
         }
-         setOtpModalOpen(true) 
+        setOtpModalOpen(true) 
         setRecipientBank(""),
-          setRecipientName(""),
-          setAccountNumber(""),
-          setRoutingNumber(""),
-          setAmount("")
+        setRecipientName(""),
+        setAccountNumber(""),
+        setRoutingNumber(""),
+        setAmount("")
        
       } else {
         const data = await response.json();
@@ -86,7 +86,7 @@ const TransferForm: React.FC = () => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        setError(`There was an error processing the transfer: ${error.message}`)
+         toast.error(error.message || "There was an error processing the transfer")
       } else {
         setError("There was an unknown error processing the transfer.")
       }
