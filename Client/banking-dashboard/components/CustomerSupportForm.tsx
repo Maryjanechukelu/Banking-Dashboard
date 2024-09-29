@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -9,12 +7,11 @@ import { toast } from "react-toastify"
 const CustomerSupportForm: React.FC<{ closeModal: () => void }> = ({
   closeModal,
 }) => {
-   const [name, setName] = useState("")
-   const [email, setEmail] = useState("")
-   const [subject, setSubject] = useState("")
-   const [message, setMessage] = useState("")
-   const [loading, setLoading] = useState(false)
-
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [subject, setSubject] = useState("")
+  const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -48,10 +45,15 @@ const CustomerSupportForm: React.FC<{ closeModal: () => void }> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white rounded-lg p-6 shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Customer Support</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      {/* Modal content */}
+      <div className="bg-indigo-600 rounded-lg px-12 py-10 shadow-lg w-full max-w-4xl mx-auto relative">
+        <div className="px-6">
+          <h1 className="text-lg font-bold p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg border border-gray-200 uppercase flex justify-center">
+            Please fill in the form to get in touch 
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4 text-white">
           <div>
             <Label htmlFor="name">Name</Label>
             <Input
@@ -61,6 +63,7 @@ const CustomerSupportForm: React.FC<{ closeModal: () => void }> = ({
               id="name"
               required
               placeholder="Enter your name"
+              className="text-gray-900"
             />
           </div>
           <div>
@@ -72,6 +75,7 @@ const CustomerSupportForm: React.FC<{ closeModal: () => void }> = ({
               id="email"
               required
               placeholder="Enter your email"
+              className="text-gray-900"
             />
           </div>
           <div>
@@ -83,6 +87,7 @@ const CustomerSupportForm: React.FC<{ closeModal: () => void }> = ({
               id="subject"
               required
               placeholder="Enter subject"
+              className="text-gray-900"
             />
           </div>
           <div>
@@ -93,14 +98,18 @@ const CustomerSupportForm: React.FC<{ closeModal: () => void }> = ({
               id="message"
               required
               placeholder="Enter your message"
-              className="w-full border border-gray-300 rounded-md p-2"
+              className="w-full border border-gray-300 rounded-md p-2 text-gray-900"
             />
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button
+            type="submit"
+            className="w-full bg-indigo-900"
+            disabled={loading}
+          >
             {loading ? "Sending..." : "Send Message"}
           </Button>
         </form>
-        <Button onClick={closeModal} className="mt-4">
+        <Button onClick={closeModal} className="mt-4 bg-indigo-950 text-white">
           Close
         </Button>
       </div>

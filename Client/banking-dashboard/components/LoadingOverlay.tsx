@@ -16,7 +16,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   if (!isLoading) return null // Return nothing if not loading
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-[100] flex items-center justify-center">
       <div className="flex flex-col items-center">
         {icon}
         <div className="text-white text-2xl mt-2">{message}</div>

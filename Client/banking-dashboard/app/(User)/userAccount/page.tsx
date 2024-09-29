@@ -101,11 +101,25 @@ const UserAccountsPage: React.FC = () => {
             </p>
             <p className="mb-2">
               Account Balance: ${" "}
-              {Number(accountDetails.last_credited_amount ?? 0).toFixed(2)}
+             {accountDetails?.last_credited_amount != null
+              ? parseFloat(
+                  accountDetails.last_credited_amount.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Amount"}
             </p>
             <p className="">
               Last Credited Amount: ${" "}
-              {Number(accountDetails.account_balance ?? 0).toFixed(2)}
+              {accountDetails?.account_balance != null
+              ? parseFloat(
+                  accountDetails.account_balance.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Balance"}
             </p>
           </div>
         </div>

