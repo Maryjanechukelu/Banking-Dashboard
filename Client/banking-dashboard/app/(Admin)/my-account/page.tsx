@@ -93,14 +93,30 @@ const UserAccountsPage: React.FC = () => {
             </h1>
           <div className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 space-y-4 max-w-lg sm:max-w-xl lg:max-w-2xl w-full mx-auto">
             <h1 className="text-lg font-semibold text-indigo-900 mb-2"> Please view your account details below:</h1>
-            <p className=" mb-2">
+             <p className=" mb-2">
               Account Number: {accountDetails.account_number}
             </p>
             <p className="mb-2">
-              Account Balance: $ {Number(accountDetails.last_credited_amount ?? 0).toFixed(2)}
+              Account Balance: ${" "}
+             {accountDetails?.last_credited_amount != null
+              ? parseFloat(
+                  accountDetails.last_credited_amount.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Amount"}
             </p>
             <p className="">
-              Last Credited Amount: $ {Number(accountDetails.account_balance ?? 0).toFixed(2)}
+              Last Credited Amount: ${" "}
+              {accountDetails?.account_balance != null
+              ? parseFloat(
+                  accountDetails.account_balance.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Balance"}
             </p>
           </div>
         </div>

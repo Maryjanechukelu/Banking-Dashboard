@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { toast } from "react-toastify"
 
+
+// Utility function to get the stored token
+const getToken = () => localStorage.getItem("access_token")
+
 interface ResetPasswordFormProps {
   token: string;
 }
@@ -21,6 +25,12 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
      e.preventDefault()
      setLoading(true)
 
+     const accessToken = getToken()
+    if (!accessToken) {
+      setError("No access token available. Please log in.")
+      return
+    }
+
      // Password validation
      if (newPassword !== confirmPassword) {
        setError("Passwords do not match")
@@ -34,6 +44,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
            method: "POST",
            headers: {
              "Content-Type": "application/json",
+             Authorization: `Bearer ${accessToken}`,
            },
            body: JSON.stringify({ new_password: newPassword }),
          }
@@ -42,12 +53,13 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
        const data = await response.json()
 
        if (response.ok) {
-         setMessage(data.message)
-         setError("")
+        toast(data.message)
+        setMessage(data.message)
+        setError("")
 
          // Redirect to login page after 2 seconds
          setTimeout(() => {
-           router.push("/login") // Redirect to the login page
+           router.push("/sign-in") // Redirect to the login page
          }, 2000)
        } else {
          setError(data.error || "An error occurred")

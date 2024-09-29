@@ -89,7 +89,7 @@ const NotificationsPage: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 px-4">
           {notifications.length > 0 ? (
             notifications.map((notification, index) => (
               <div

@@ -86,7 +86,7 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
     },
     3: {
       url: "https://swiss-ultra-api-2.onrender.com/auth/complete_transfer",
-      key: "second_auth_code",
+      key: "final_auth_code",
     },
   }
 
@@ -150,7 +150,7 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
                   ? "3 Digit Authourization Pin"
                   : transactionPhase === 2
                   ? "Tax Clearance Verification Code "
-                  : "Tax Authourization Code"}
+                  : "Final Authourization Code"}
                 <Image
                   src="/icons/x.svg"
                   alt="close"
@@ -222,7 +222,7 @@ const OtpModal = ({ closeModal }: { closeModal: () => void }) => {
             <AlertDialogFooter>
               <AlertDialogAction
                 className="shad-primary-btn w-full"
-                onClick={handleNextPhase}
+                onClick={handleCloseModal}
               >
                 Close
               </AlertDialogAction>
