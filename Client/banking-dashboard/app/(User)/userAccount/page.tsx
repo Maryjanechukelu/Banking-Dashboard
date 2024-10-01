@@ -101,18 +101,7 @@ const UserAccountsPage: React.FC = () => {
             </p>
             <p className="mb-2">
               Account Balance: ${" "}
-             {accountDetails?.last_credited_amount != null
-              ? parseFloat(
-                  accountDetails.last_credited_amount.toString().replace(/,/g, "")
-                ).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              : "Invalid Amount"}
-            </p>
-            <p className="">
-              Last Credited Amount: ${" "}
-              {accountDetails?.account_balance != null
+            {accountDetails?.account_balance != null
               ? parseFloat(
                   accountDetails.account_balance.toString().replace(/,/g, "")
                 ).toLocaleString(undefined, {
@@ -121,6 +110,17 @@ const UserAccountsPage: React.FC = () => {
                 })
               : "Invalid Balance"}
             </p>
+            <p className="">
+              Last Credited Amount: ${" "}
+             {accountDetails?.last_credited_amount != null
+              ? parseFloat(
+                  accountDetails.last_credited_amount.toString().replace(/,/g, "")
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
+              : "Invalid Amount"}
+              </p>
           </div>
         </div>
       ) : (
